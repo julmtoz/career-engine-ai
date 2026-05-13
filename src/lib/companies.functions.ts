@@ -119,5 +119,5 @@ export const enrichCompany = createServerFn({ method: "POST" })
       signals: o as never,
     });
 
-    return { ok: true, output: o, reasoning: result.reasoning };
+    return { ok: true as const, output: JSON.parse(JSON.stringify(o)) as Record<string, string | number | boolean | null>, reasoning: result.reasoning };
   });
