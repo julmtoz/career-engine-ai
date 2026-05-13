@@ -47,7 +47,7 @@ export async function executeAgent(args: AgentExecuteArgs): Promise<AgentExecute
       workflow_run_id: args.workflowRunId ?? null,
       task_id: args.taskId ?? null,
       status: "running",
-      input: args.input,
+      input: args.input as never,
       started_at: startedAt.toISOString(),
     })
     .select("id")

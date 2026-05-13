@@ -54,7 +54,7 @@ export async function startWorkflow(
       workflow_id: args.workflowId,
       status: "running",
       trigger_event_id: args.triggerEventId ?? null,
-      context: args.context ?? {},
+      context: (args.context ?? {}) as never,
       current_node: graph.start,
       started_at: new Date().toISOString(),
     })

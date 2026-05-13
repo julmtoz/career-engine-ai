@@ -31,7 +31,7 @@ export async function enqueue(
     .insert({
       user_id: args.userId,
       kind: args.kind,
-      payload: args.payload ?? {},
+      payload: (args.payload ?? {}) as never,
       priority: args.priority ?? 100,
       scheduled_for: (args.scheduledFor ?? new Date()).toISOString(),
       workflow_run_id: args.workflowRunId ?? null,

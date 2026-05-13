@@ -31,7 +31,7 @@ export async function emitEvent(
       source: opts.source,
       subject_type: opts.subjectType ?? null,
       subject_id: opts.subjectId ?? null,
-      payload: opts.payload ?? {},
+      payload: (opts.payload ?? {}) as never,
       correlation_id: opts.correlationId ?? null,
     })
     .select("id")
