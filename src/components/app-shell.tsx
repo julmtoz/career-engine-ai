@@ -1,8 +1,10 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { useAuth } from "@/lib/auth-context";
 
 const NAV = [
   { to: "/dashboard", label: "Fleet" },
+  { to: "/automation", label: "Automation" },
   { to: "/jobs", label: "Opportunities" },
   { to: "/pipeline", label: "Pipeline" },
   { to: "/copilot", label: "Copilot" },
@@ -12,6 +14,7 @@ const NAV = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user, signOut } = useAuth();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -48,11 +51,24 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/15">
             <span className="size-1.5 rounded-full bg-accent animate-pulse-soft" />
             <span className="text-[10px] font-mono font-medium text-accent uppercase tracking-widest">
-              4 agents active
+              Fleet online
             </span>
           </div>
+          {user ? (
+            <button
+              onClick={signOut}
+              className="text-xs text-muted hover:text-foreground transition px-2"
+              title={user.email ?? ""}
+            >
+              Sign out
+            </button>
+          ) : (
+            <Link to="/login" className="text-xs text-muted hover:text-foreground transition px-2">
+              Sign in
+            </Link>
+          )}
           <div className="size-8 rounded-full bg-foreground/90 grid place-items-center text-background text-xs font-semibold">
-            AC
+            {user?.email?.[0]?.toUpperCase() ?? "A"}
           </div>
         </div>
       </nav>

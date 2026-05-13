@@ -12,9 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as OutreachRouteImport } from './routes/outreach'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as AutomationRouteImport } from './routes/automation'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hooks/tick'
 
@@ -33,6 +35,11 @@ const OutreachRoute = OutreachRouteImport.update({
   path: '/outreach',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsRoute = JobsRouteImport.update({
   id: '/jobs',
   path: '/jobs',
@@ -48,6 +55,11 @@ const CopilotRoute = CopilotRouteImport.update({
   path: '/copilot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AutomationRoute = AutomationRouteImport.update({
+  id: '/automation',
+  path: '/automation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -61,9 +73,11 @@ const ApiPublicHooksTickRoute = ApiPublicHooksTickRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/automation': typeof AutomationRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
+  '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/resume': typeof ResumeRoute
@@ -71,9 +85,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/automation': typeof AutomationRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
+  '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/resume': typeof ResumeRoute
@@ -82,9 +98,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/automation': typeof AutomationRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
+  '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/resume': typeof ResumeRoute
@@ -94,9 +112,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/automation'
     | '/copilot'
     | '/dashboard'
     | '/jobs'
+    | '/login'
     | '/outreach'
     | '/pipeline'
     | '/resume'
@@ -104,9 +124,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/automation'
     | '/copilot'
     | '/dashboard'
     | '/jobs'
+    | '/login'
     | '/outreach'
     | '/pipeline'
     | '/resume'
@@ -114,9 +136,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/automation'
     | '/copilot'
     | '/dashboard'
     | '/jobs'
+    | '/login'
     | '/outreach'
     | '/pipeline'
     | '/resume'
@@ -125,9 +149,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AutomationRoute: typeof AutomationRoute
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
   JobsRoute: typeof JobsRoute
+  LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
   PipelineRoute: typeof PipelineRoute
   ResumeRoute: typeof ResumeRoute
@@ -157,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OutreachRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jobs': {
       id: '/jobs'
       path: '/jobs'
@@ -178,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CopilotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/automation': {
+      id: '/automation'
+      path: '/automation'
+      fullPath: '/automation'
+      preLoaderRoute: typeof AutomationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -197,9 +237,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AutomationRoute: AutomationRoute,
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
   JobsRoute: JobsRoute,
+  LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
   PipelineRoute: PipelineRoute,
   ResumeRoute: ResumeRoute,
