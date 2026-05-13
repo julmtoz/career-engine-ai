@@ -3,6 +3,7 @@
  * (worker disabled — runs in main thread, fine for small resumes). DOCX uses
  * mammoth's browser bundle. Falls back to plain-text reading otherwise.
  */
+// @ts-expect-error — no types ship for the browser bundle
 import mammoth from "mammoth/mammoth.browser";
 
 export async function extractResumeText(file: File): Promise<string> {
