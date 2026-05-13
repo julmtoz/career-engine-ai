@@ -114,3 +114,31 @@ W2: Reply received
 `integrations` table holds OAuth credentials per `provider` (linkedin,
 gmail, greenhouse, lever, ashby). Tokens stored encrypted; refresh
 handled in connector functions, never exposed to client.
+
+---
+
+## Hardening & Launch Phase
+
+### Safety model (current)
+- **Approval-gated externals.** No outreach, application, or follow-up leaves the workspace without an explicit approval entry in `pending_actions` / `outreach_drafts` / `follow_ups` (`status='pending'`).
+- **Per-row RLS.** Every user-owned table enforces `auth.uid() = user_id` (or admin role). The server functions never use `supabaseAdmin` for user data — only `requireSupabaseAuth` which preserves RLS as the calling user.
+- **Pause switch.** `/automation` exposes a single "Pause all automation" action that sets autonomy to `manual` and freezes pending workflow runs.
+- **Decision audit log.** Every model output writes to `ai_decisions` with reasoning + confidence, surfaced in `/automation` and `/admin`.
+
+### Operator surfaces
+- **`/launch`** — pre-flight checklist (env, agents, profile, resume, sources, jobs, RLS) with a 0–100 readiness score and direct links to the missing step.
+- **`/admin`** — debug console: agent fleet, agent runs, queue health, failed/dead-letter tasks (with retry), source sync errors, AI decisions, pending approvals, workflow runs.
+- **Demo seed** — `seedDemoData` / `wipeDemoData` populate a realistic profile, three companies, three jobs, three recruiters, and one in-pipeline application so a new account is instantly demoable. Wipe targets only `source='demo'` rows.
+
+### Reliability primitives
+- **Task retries.** `task_queue.attempt`/`max_attempts` with `retryTask` server function to manually re-arm dead-letter tasks.
+- **Graceful AI failure.** Agent runner records `error` on `agent_runs` and surfaces it in the operator console; workflows pause rather than silently failing.
+- **Duplicate intake guard.** Job ingestion dedupes on `(user_id, title, company)` and `(source, external_id)`.
+- **Permission errors** bubble up via Supabase error envelope and the per-route `errorComponent` retry button (root layout).
+
+### Known limitations / next roadmap
+1. No autonomous apply — all submission is human-approved by design.
+2. Live connectors limited to Greenhouse + Lever public APIs; Workday/Ashby/RSS routed through manual Intake.
+3. Email/LinkedIn send-out is draft-only; we do not yet hold OAuth tokens for either channel.
+4. Agent memory uses pgvector but recall is not yet wired into the Strategist prompts.
+5. Cron tick endpoint (`/api/public/hooks/tick`) exists but is not yet attached to a scheduled job — invoke manually for now.
