@@ -15,14 +15,18 @@ import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PrepRouteImport } from './routes/prep'
 import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as IntakeRouteImport } from './routes/intake'
+import { Route as FollowUpsRouteImport } from './routes/follow-ups'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as ConversionRouteImport } from './routes/conversion'
 import { Route as CompaniesRouteImport } from './routes/companies'
 import { Route as AutomationRouteImport } from './routes/automation'
 import { Route as ApprovalsRouteImport } from './routes/approvals'
@@ -60,9 +64,19 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrepRoute = PrepRouteImport.update({
+  id: '/prep',
+  path: '/prep',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PipelineRoute = PipelineRouteImport.update({
   id: '/pipeline',
   path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackagesRoute = PackagesRouteImport.update({
+  id: '/packages',
+  path: '/packages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OutreachRoute = OutreachRouteImport.update({
@@ -85,6 +99,11 @@ const IntakeRoute = IntakeRouteImport.update({
   path: '/intake',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FollowUpsRoute = FollowUpsRouteImport.update({
+  id: '/follow-ups',
+  path: '/follow-ups',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeedRoute = FeedRouteImport.update({
   id: '/feed',
   path: '/feed',
@@ -98,6 +117,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const CopilotRoute = CopilotRouteImport.update({
   id: '/copilot',
   path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConversionRoute = ConversionRouteImport.update({
+  id: '/conversion',
+  path: '/conversion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompaniesRoute = CompaniesRouteImport.update({
@@ -137,14 +161,18 @@ export interface FileRoutesByFullPath {
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
   '/companies': typeof CompaniesRoute
+  '/conversion': typeof ConversionRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
+  '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
+  '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
+  '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
@@ -159,14 +187,18 @@ export interface FileRoutesByTo {
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
   '/companies': typeof CompaniesRoute
+  '/conversion': typeof ConversionRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
+  '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
+  '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
+  '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
@@ -182,14 +214,18 @@ export interface FileRoutesById {
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
   '/companies': typeof CompaniesRoute
+  '/conversion': typeof ConversionRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
+  '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
+  '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
+  '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
@@ -206,14 +242,18 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/automation'
     | '/companies'
+    | '/conversion'
     | '/copilot'
     | '/dashboard'
     | '/feed'
+    | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
+    | '/packages'
     | '/pipeline'
+    | '/prep'
     | '/profile'
     | '/recruiters'
     | '/resume'
@@ -228,14 +268,18 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/automation'
     | '/companies'
+    | '/conversion'
     | '/copilot'
     | '/dashboard'
     | '/feed'
+    | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
+    | '/packages'
     | '/pipeline'
+    | '/prep'
     | '/profile'
     | '/recruiters'
     | '/resume'
@@ -250,14 +294,18 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/automation'
     | '/companies'
+    | '/conversion'
     | '/copilot'
     | '/dashboard'
     | '/feed'
+    | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
+    | '/packages'
     | '/pipeline'
+    | '/prep'
     | '/profile'
     | '/recruiters'
     | '/resume'
@@ -273,14 +321,18 @@ export interface RootRouteChildren {
   ApprovalsRoute: typeof ApprovalsRoute
   AutomationRoute: typeof AutomationRoute
   CompaniesRoute: typeof CompaniesRoute
+  ConversionRoute: typeof ConversionRoute
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
   FeedRoute: typeof FeedRoute
+  FollowUpsRoute: typeof FollowUpsRoute
   IntakeRoute: typeof IntakeRoute
   JobsRoute: typeof JobsRoute
   LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
+  PackagesRoute: typeof PackagesRoute
   PipelineRoute: typeof PipelineRoute
+  PrepRoute: typeof PrepRoute
   ProfileRoute: typeof ProfileRoute
   RecruitersRoute: typeof RecruitersRoute
   ResumeRoute: typeof ResumeRoute
@@ -334,11 +386,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prep': {
+      id: '/prep'
+      path: '/prep'
+      fullPath: '/prep'
+      preLoaderRoute: typeof PrepRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pipeline': {
       id: '/pipeline'
       path: '/pipeline'
       fullPath: '/pipeline'
       preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packages': {
+      id: '/packages'
+      path: '/packages'
+      fullPath: '/packages'
+      preLoaderRoute: typeof PackagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/outreach': {
@@ -369,6 +435,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/follow-ups': {
+      id: '/follow-ups'
+      path: '/follow-ups'
+      fullPath: '/follow-ups'
+      preLoaderRoute: typeof FollowUpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/feed': {
       id: '/feed'
       path: '/feed'
@@ -388,6 +461,13 @@ declare module '@tanstack/react-router' {
       path: '/copilot'
       fullPath: '/copilot'
       preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conversion': {
+      id: '/conversion'
+      path: '/conversion'
+      fullPath: '/conversion'
+      preLoaderRoute: typeof ConversionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/companies': {
@@ -441,14 +521,18 @@ const rootRouteChildren: RootRouteChildren = {
   ApprovalsRoute: ApprovalsRoute,
   AutomationRoute: AutomationRoute,
   CompaniesRoute: CompaniesRoute,
+  ConversionRoute: ConversionRoute,
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
   FeedRoute: FeedRoute,
+  FollowUpsRoute: FollowUpsRoute,
   IntakeRoute: IntakeRoute,
   JobsRoute: JobsRoute,
   LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
+  PackagesRoute: PackagesRoute,
   PipelineRoute: PipelineRoute,
+  PrepRoute: PrepRoute,
   ProfileRoute: ProfileRoute,
   RecruitersRoute: RecruitersRoute,
   ResumeRoute: ResumeRoute,

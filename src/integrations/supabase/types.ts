@@ -284,6 +284,75 @@ export type Database = {
           },
         ]
       }
+      application_packages: {
+        Row: {
+          agent_run_id: string | null
+          application_id: string | null
+          confidence: number | null
+          cover_letter_id: string | null
+          created_at: string
+          followup_plan: Json
+          id: string
+          job_id: string
+          linkedin_outreach_id: string | null
+          pitch: Json
+          qa_answers: Json
+          readiness_breakdown: Json
+          readiness_score: number | null
+          reasoning: string | null
+          recruiter_outreach_id: string | null
+          resume_version_id: string | null
+          salary_strategy: Json
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_run_id?: string | null
+          application_id?: string | null
+          confidence?: number | null
+          cover_letter_id?: string | null
+          created_at?: string
+          followup_plan?: Json
+          id?: string
+          job_id: string
+          linkedin_outreach_id?: string | null
+          pitch?: Json
+          qa_answers?: Json
+          readiness_breakdown?: Json
+          readiness_score?: number | null
+          reasoning?: string | null
+          recruiter_outreach_id?: string | null
+          resume_version_id?: string | null
+          salary_strategy?: Json
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_run_id?: string | null
+          application_id?: string | null
+          confidence?: number | null
+          cover_letter_id?: string | null
+          created_at?: string
+          followup_plan?: Json
+          id?: string
+          job_id?: string
+          linkedin_outreach_id?: string | null
+          pitch?: Json
+          qa_answers?: Json
+          readiness_breakdown?: Json
+          readiness_score?: number | null
+          reasoning?: string | null
+          recruiter_outreach_id?: string | null
+          resume_version_id?: string | null
+          salary_strategy?: Json
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       applications: {
         Row: {
           cover_letter_id: string | null
@@ -292,6 +361,8 @@ export type Database = {
           job_id: string
           meta: Json
           notes: string | null
+          package_id: string | null
+          readiness_score: number | null
           resume_version_id: string | null
           stage: Database["public"]["Enums"]["application_stage"]
           submitted_at: string | null
@@ -305,6 +376,8 @@ export type Database = {
           job_id: string
           meta?: Json
           notes?: string | null
+          package_id?: string | null
+          readiness_score?: number | null
           resume_version_id?: string | null
           stage?: Database["public"]["Enums"]["application_stage"]
           submitted_at?: string | null
@@ -318,6 +391,8 @@ export type Database = {
           job_id?: string
           meta?: Json
           notes?: string | null
+          package_id?: string | null
+          readiness_score?: number | null
           resume_version_id?: string | null
           stage?: Database["public"]["Enums"]["application_stage"]
           submitted_at?: string | null
@@ -589,6 +664,66 @@ export type Database = {
         }
         Relationships: []
       }
+      follow_ups: {
+        Row: {
+          agent_run_id: string | null
+          application_id: string | null
+          body: string
+          channel: string
+          confidence: number | null
+          created_at: string
+          decided_at: string | null
+          id: string
+          kind: string
+          package_id: string | null
+          reasoning: string | null
+          recruiter_id: string | null
+          send_after: string
+          sent_at: string | null
+          status: string
+          subject: string | null
+          user_id: string
+        }
+        Insert: {
+          agent_run_id?: string | null
+          application_id?: string | null
+          body: string
+          channel?: string
+          confidence?: number | null
+          created_at?: string
+          decided_at?: string | null
+          id?: string
+          kind: string
+          package_id?: string | null
+          reasoning?: string | null
+          recruiter_id?: string | null
+          send_after: string
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          user_id: string
+        }
+        Update: {
+          agent_run_id?: string | null
+          application_id?: string | null
+          body?: string
+          channel?: string
+          confidence?: number | null
+          created_at?: string
+          decided_at?: string | null
+          id?: string
+          kind?: string
+          package_id?: string | null
+          reasoning?: string | null
+          recruiter_id?: string | null
+          send_after?: string
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       integrations: {
         Row: {
           connected_at: string
@@ -615,6 +750,69 @@ export type Database = {
           meta?: Json | null
           provider?: string
           status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      interview_prep: {
+        Row: {
+          agent_run_id: string | null
+          application_id: string
+          behavioral_questions: Json
+          company_brief: Json
+          confidence: number | null
+          created_at: string
+          id: string
+          job_id: string
+          negotiation_strategy: Json
+          questions_to_ask: Json
+          reasoning: string | null
+          red_flags: Json
+          role_questions: Json
+          round: string | null
+          star_answers: Json
+          technical_questions: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_run_id?: string | null
+          application_id: string
+          behavioral_questions?: Json
+          company_brief?: Json
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          job_id: string
+          negotiation_strategy?: Json
+          questions_to_ask?: Json
+          reasoning?: string | null
+          red_flags?: Json
+          role_questions?: Json
+          round?: string | null
+          star_answers?: Json
+          technical_questions?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_run_id?: string | null
+          application_id?: string
+          behavioral_questions?: Json
+          company_brief?: Json
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          job_id?: string
+          negotiation_strategy?: Json
+          questions_to_ask?: Json
+          reasoning?: string | null
+          red_flags?: Json
+          role_questions?: Json
+          round?: string | null
+          star_answers?: Json
+          technical_questions?: Json
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -886,6 +1084,54 @@ export type Database = {
           read_at?: string | null
           severity?: string
           title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      outcomes: {
+        Row: {
+          application_id: string
+          company_id: string | null
+          created_at: string
+          id: string
+          job_id: string | null
+          kind: string
+          meta: Json
+          occurred_at: string
+          package_id: string | null
+          recruiter_id: string | null
+          resume_version_id: string | null
+          source: string | null
+          user_id: string
+        }
+        Insert: {
+          application_id: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string | null
+          kind: string
+          meta?: Json
+          occurred_at?: string
+          package_id?: string | null
+          recruiter_id?: string | null
+          resume_version_id?: string | null
+          source?: string | null
+          user_id: string
+        }
+        Update: {
+          application_id?: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string | null
+          kind?: string
+          meta?: Json
+          occurred_at?: string
+          package_id?: string | null
+          recruiter_id?: string | null
+          resume_version_id?: string | null
+          source?: string | null
           user_id?: string
         }
         Relationships: []
@@ -1609,8 +1855,10 @@ export type Database = {
         | "tailoring"
         | "ready"
         | "applied"
+        | "phone_screen"
         | "outreach"
         | "interview"
+        | "interview_2"
         | "offer"
         | "rejected"
         | "withdrawn"
@@ -1796,8 +2044,10 @@ export const Constants = {
         "tailoring",
         "ready",
         "applied",
+        "phone_screen",
         "outreach",
         "interview",
+        "interview_2",
         "offer",
         "rejected",
         "withdrawn",
