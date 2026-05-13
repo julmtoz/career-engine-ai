@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MissionControl } from "@/components/mission-control";
+import { OrchestrationTimeline, ReasoningStream, AutomationStateBar, OpportunityIntelCard, SAMPLE_OPPS } from "@/components/signature";
 import { fleetStats } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
@@ -120,6 +121,34 @@ function Landing() {
 
             <div className="col-span-12 lg:col-span-7 animate-float [animation-delay:200ms]">
               <MissionControl />
+            </div>
+          </div>
+
+          {/* Automation state strip beneath hero */}
+          <div className="mb-8 animate-float [animation-delay:550ms]">
+            <AutomationStateBar />
+          </div>
+
+          {/* Orchestration timeline — signature primitive */}
+          <div className="mb-8 animate-float [animation-delay:650ms]">
+            <OrchestrationTimeline />
+          </div>
+
+          {/* Reasoning + intelligence strip */}
+          <div className="grid grid-cols-12 gap-6 mb-8 animate-float [animation-delay:750ms]">
+            <div className="col-span-12 lg:col-span-7">
+              <ReasoningStream height="h-72" />
+            </div>
+            <div className="col-span-12 lg:col-span-5">
+              <div className="surface rounded-2xl p-4 h-full">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted/85">live intelligence</span>
+                  <span className="text-[10px] font-mono uppercase text-accent">P0 stream</span>
+                </div>
+                <div className="space-y-2">
+                  <OpportunityIntelCard o={SAMPLE_OPPS[0]} />
+                </div>
+              </div>
             </div>
           </div>
         </section>
