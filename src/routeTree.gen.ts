@@ -15,6 +15,7 @@ import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PrepRouteImport } from './routes/prep'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as OutreachRouteImport } from './routes/outreach'
@@ -60,6 +61,11 @@ const RecruitersRoute = RecruitersRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrepRoute = PrepRouteImport.update({
+  id: '/prep',
+  path: '/prep',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineRoute = PipelineRouteImport.update({
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
+  '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
+  '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
@@ -208,6 +216,7 @@ export interface FileRoutesById {
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
+  '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/outreach'
     | '/packages'
     | '/pipeline'
+    | '/prep'
     | '/profile'
     | '/recruiters'
     | '/resume'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/outreach'
     | '/packages'
     | '/pipeline'
+    | '/prep'
     | '/profile'
     | '/recruiters'
     | '/resume'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/outreach'
     | '/packages'
     | '/pipeline'
+    | '/prep'
     | '/profile'
     | '/recruiters'
     | '/resume'
@@ -307,6 +319,7 @@ export interface RootRouteChildren {
   OutreachRoute: typeof OutreachRoute
   PackagesRoute: typeof PackagesRoute
   PipelineRoute: typeof PipelineRoute
+  PrepRoute: typeof PrepRoute
   ProfileRoute: typeof ProfileRoute
   RecruitersRoute: typeof RecruitersRoute
   ResumeRoute: typeof ResumeRoute
@@ -358,6 +371,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prep': {
+      id: '/prep'
+      path: '/prep'
+      fullPath: '/prep'
+      preLoaderRoute: typeof PrepRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline': {
@@ -491,6 +511,7 @@ const rootRouteChildren: RootRouteChildren = {
   OutreachRoute: OutreachRoute,
   PackagesRoute: PackagesRoute,
   PipelineRoute: PipelineRoute,
+  PrepRoute: PrepRoute,
   ProfileRoute: ProfileRoute,
   RecruitersRoute: RecruitersRoute,
   ResumeRoute: ResumeRoute,
