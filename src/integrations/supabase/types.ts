@@ -210,6 +210,39 @@ export type Database = {
           },
         ]
       }
+      analytics_events: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          meta: Json
+          subject_id: string | null
+          subject_type: string | null
+          user_id: string
+          value: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          meta?: Json
+          subject_id?: string | null
+          subject_type?: string | null
+          user_id: string
+          value?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          meta?: Json
+          subject_id?: string | null
+          subject_type?: string | null
+          user_id?: string
+          value?: number | null
+        }
+        Relationships: []
+      }
       application_events: {
         Row: {
           actor: string
@@ -406,6 +439,75 @@ export type Database = {
         }
         Relationships: []
       }
+      companies: {
+        Row: {
+          created_at: string
+          domain: string | null
+          funding_stage: string | null
+          growth_signals: Json
+          hiring_velocity: number | null
+          hq_location: string | null
+          id: string
+          industry: string | null
+          intelligence_score: number | null
+          last_enriched_at: string | null
+          layoff_signal: boolean | null
+          meta: Json
+          name: string
+          opportunity_score: number | null
+          recruiter_activity_score: number | null
+          size_band: string | null
+          stability_score: number | null
+          tech_stack: string[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          domain?: string | null
+          funding_stage?: string | null
+          growth_signals?: Json
+          hiring_velocity?: number | null
+          hq_location?: string | null
+          id?: string
+          industry?: string | null
+          intelligence_score?: number | null
+          last_enriched_at?: string | null
+          layoff_signal?: boolean | null
+          meta?: Json
+          name: string
+          opportunity_score?: number | null
+          recruiter_activity_score?: number | null
+          size_band?: string | null
+          stability_score?: number | null
+          tech_stack?: string[]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          domain?: string | null
+          funding_stage?: string | null
+          growth_signals?: Json
+          hiring_velocity?: number | null
+          hq_location?: string | null
+          id?: string
+          industry?: string | null
+          intelligence_score?: number | null
+          last_enriched_at?: string | null
+          layoff_signal?: boolean | null
+          meta?: Json
+          name?: string
+          opportunity_score?: number | null
+          recruiter_activity_score?: number | null
+          size_band?: string | null
+          stability_score?: number | null
+          tech_stack?: string[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       cover_letters: {
         Row: {
           agent_run_id: string | null
@@ -569,19 +671,23 @@ export type Database = {
           apply_url: string | null
           ats_score: number | null
           company: string
+          company_id: string | null
           description: string | null
           discovered_at: string
           embedding: string | null
           external_id: string | null
+          freshness_score: number | null
           id: string
           intake_kind: string | null
           interview_probability: number | null
+          job_source_id: string | null
           location: string | null
           match_score: number | null
           meta: Json | null
           posted_at: string | null
           raw_input: string | null
           reasoning: string | null
+          recruiter_active: boolean | null
           remote: string | null
           requirements: string[] | null
           responsibilities: string[] | null
@@ -589,6 +695,7 @@ export type Database = {
           salary_min: number | null
           seniority: string | null
           source: string | null
+          source_confidence: number | null
           tags: string[] | null
           title: string
           url: string | null
@@ -598,19 +705,23 @@ export type Database = {
           apply_url?: string | null
           ats_score?: number | null
           company: string
+          company_id?: string | null
           description?: string | null
           discovered_at?: string
           embedding?: string | null
           external_id?: string | null
+          freshness_score?: number | null
           id?: string
           intake_kind?: string | null
           interview_probability?: number | null
+          job_source_id?: string | null
           location?: string | null
           match_score?: number | null
           meta?: Json | null
           posted_at?: string | null
           raw_input?: string | null
           reasoning?: string | null
+          recruiter_active?: boolean | null
           remote?: string | null
           requirements?: string[] | null
           responsibilities?: string[] | null
@@ -618,6 +729,7 @@ export type Database = {
           salary_min?: number | null
           seniority?: string | null
           source?: string | null
+          source_confidence?: number | null
           tags?: string[] | null
           title: string
           url?: string | null
@@ -627,19 +739,23 @@ export type Database = {
           apply_url?: string | null
           ats_score?: number | null
           company?: string
+          company_id?: string | null
           description?: string | null
           discovered_at?: string
           embedding?: string | null
           external_id?: string | null
+          freshness_score?: number | null
           id?: string
           intake_kind?: string | null
           interview_probability?: number | null
+          job_source_id?: string | null
           location?: string | null
           match_score?: number | null
           meta?: Json | null
           posted_at?: string | null
           raw_input?: string | null
           reasoning?: string | null
+          recruiter_active?: boolean | null
           remote?: string | null
           requirements?: string[] | null
           responsibilities?: string[] | null
@@ -647,12 +763,93 @@ export type Database = {
           salary_min?: number | null
           seniority?: string | null
           source?: string | null
+          source_confidence?: number | null
           tags?: string[] | null
           title?: string
           url?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "job_opportunities_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_opportunities_job_source_id_fkey"
+            columns: ["job_source_id"]
+            isOneToOne: false
+            referencedRelation: "job_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_sources: {
+        Row: {
+          company_id: string | null
+          config: Json
+          created_at: string
+          enabled: boolean
+          id: string
+          identifier: string
+          jobs_imported: number
+          jobs_seen: number
+          kind: string
+          label: string | null
+          last_error: string | null
+          last_synced_at: string | null
+          source_confidence: number
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          identifier: string
+          jobs_imported?: number
+          jobs_seen?: number
+          kind: string
+          label?: string | null
+          last_error?: string | null
+          last_synced_at?: string | null
+          source_confidence?: number
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string | null
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          identifier?: string
+          jobs_imported?: number
+          jobs_seen?: number
+          kind?: string
+          label?: string | null
+          last_error?: string | null
+          last_synced_at?: string | null
+          source_confidence?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_sources_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notifications: {
         Row: {
@@ -692,6 +889,72 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      outreach_drafts: {
+        Row: {
+          agent_run_id: string | null
+          body: string
+          channel: string
+          confidence: number | null
+          created_at: string
+          decided_at: string | null
+          id: string
+          job_id: string | null
+          reasoning: string | null
+          recruiter_id: string | null
+          status: string
+          subject: string | null
+          user_id: string
+          variant: string
+        }
+        Insert: {
+          agent_run_id?: string | null
+          body: string
+          channel?: string
+          confidence?: number | null
+          created_at?: string
+          decided_at?: string | null
+          id?: string
+          job_id?: string | null
+          reasoning?: string | null
+          recruiter_id?: string | null
+          status?: string
+          subject?: string | null
+          user_id: string
+          variant?: string
+        }
+        Update: {
+          agent_run_id?: string | null
+          body?: string
+          channel?: string
+          confidence?: number | null
+          created_at?: string
+          decided_at?: string | null
+          id?: string
+          job_id?: string | null
+          reasoning?: string | null
+          recruiter_id?: string | null
+          status?: string
+          subject?: string | null
+          user_id?: string
+          variant?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outreach_drafts_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "job_opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "outreach_drafts_recruiter_id_fkey"
+            columns: ["recruiter_id"]
+            isOneToOne: false
+            referencedRelation: "recruiters"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       outreach_messages: {
         Row: {
@@ -879,41 +1142,73 @@ export type Database = {
       recruiters: {
         Row: {
           company: string | null
+          company_id: string | null
+          contact_status: string | null
           created_at: string
           email: string | null
+          engagement_score: number | null
           id: string
+          last_contacted_at: string | null
           linkedin_url: string | null
           meta: Json | null
           name: string
           notes: string | null
+          response_rate: number | null
+          source: string | null
+          target_tier: string | null
           title: string | null
           user_id: string
+          warmth_score: number | null
         }
         Insert: {
           company?: string | null
+          company_id?: string | null
+          contact_status?: string | null
           created_at?: string
           email?: string | null
+          engagement_score?: number | null
           id?: string
+          last_contacted_at?: string | null
           linkedin_url?: string | null
           meta?: Json | null
           name: string
           notes?: string | null
+          response_rate?: number | null
+          source?: string | null
+          target_tier?: string | null
           title?: string | null
           user_id: string
+          warmth_score?: number | null
         }
         Update: {
           company?: string | null
+          company_id?: string | null
+          contact_status?: string | null
           created_at?: string
           email?: string | null
+          engagement_score?: number | null
           id?: string
+          last_contacted_at?: string | null
           linkedin_url?: string | null
           meta?: Json | null
           name?: string
           notes?: string | null
+          response_rate?: number | null
+          source?: string | null
+          target_tier?: string | null
           title?: string | null
           user_id?: string
+          warmth_score?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "recruiters_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       resume_versions: {
         Row: {

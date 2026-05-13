@@ -9,21 +9,37 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StrategistRouteImport } from './routes/strategist'
+import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as IntakeRouteImport } from './routes/intake'
+import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as CompaniesRouteImport } from './routes/companies'
 import { Route as AutomationRouteImport } from './routes/automation'
 import { Route as ApprovalsRouteImport } from './routes/approvals'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hooks/tick'
 
+const StrategistRoute = StrategistRouteImport.update({
+  id: '/strategist',
+  path: '/strategist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SourcesRoute = SourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResumesRoute = ResumesRouteImport.update({
   id: '/resumes',
   path: '/resumes',
@@ -32,6 +48,11 @@ const ResumesRoute = ResumesRouteImport.update({
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecruitersRoute = RecruitersRouteImport.update({
+  id: '/recruiters',
+  path: '/recruiters',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -64,6 +85,11 @@ const IntakeRoute = IntakeRouteImport.update({
   path: '/intake',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -74,6 +100,11 @@ const CopilotRoute = CopilotRouteImport.update({
   path: '/copilot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompaniesRoute = CompaniesRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AutomationRoute = AutomationRouteImport.update({
   id: '/automation',
   path: '/automation',
@@ -82,6 +113,11 @@ const AutomationRoute = AutomationRouteImport.update({
 const ApprovalsRoute = ApprovalsRouteImport.update({
   id: '/approvals',
   path: '/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -97,123 +133,179 @@ const ApiPublicHooksTickRoute = ApiPublicHooksTickRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
+  '/companies': typeof CompaniesRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
+  '/feed': typeof FeedRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
+  '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
+  '/sources': typeof SourcesRoute
+  '/strategist': typeof StrategistRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
+  '/companies': typeof CompaniesRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
+  '/feed': typeof FeedRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
+  '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
+  '/sources': typeof SourcesRoute
+  '/strategist': typeof StrategistRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
+  '/companies': typeof CompaniesRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
+  '/feed': typeof FeedRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
+  '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
+  '/sources': typeof SourcesRoute
+  '/strategist': typeof StrategistRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics'
     | '/approvals'
     | '/automation'
+    | '/companies'
     | '/copilot'
     | '/dashboard'
+    | '/feed'
     | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
     | '/pipeline'
     | '/profile'
+    | '/recruiters'
     | '/resume'
     | '/resumes'
+    | '/sources'
+    | '/strategist'
     | '/api/public/hooks/tick'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/approvals'
     | '/automation'
+    | '/companies'
     | '/copilot'
     | '/dashboard'
+    | '/feed'
     | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
     | '/pipeline'
     | '/profile'
+    | '/recruiters'
     | '/resume'
     | '/resumes'
+    | '/sources'
+    | '/strategist'
     | '/api/public/hooks/tick'
   id:
     | '__root__'
     | '/'
+    | '/analytics'
     | '/approvals'
     | '/automation'
+    | '/companies'
     | '/copilot'
     | '/dashboard'
+    | '/feed'
     | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
     | '/pipeline'
     | '/profile'
+    | '/recruiters'
     | '/resume'
     | '/resumes'
+    | '/sources'
+    | '/strategist'
     | '/api/public/hooks/tick'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   ApprovalsRoute: typeof ApprovalsRoute
   AutomationRoute: typeof AutomationRoute
+  CompaniesRoute: typeof CompaniesRoute
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
+  FeedRoute: typeof FeedRoute
   IntakeRoute: typeof IntakeRoute
   JobsRoute: typeof JobsRoute
   LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
   PipelineRoute: typeof PipelineRoute
   ProfileRoute: typeof ProfileRoute
+  RecruitersRoute: typeof RecruitersRoute
   ResumeRoute: typeof ResumeRoute
   ResumesRoute: typeof ResumesRoute
+  SourcesRoute: typeof SourcesRoute
+  StrategistRoute: typeof StrategistRoute
   ApiPublicHooksTickRoute: typeof ApiPublicHooksTickRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/strategist': {
+      id: '/strategist'
+      path: '/strategist'
+      fullPath: '/strategist'
+      preLoaderRoute: typeof StrategistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sources': {
+      id: '/sources'
+      path: '/sources'
+      fullPath: '/sources'
+      preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resumes': {
       id: '/resumes'
       path: '/resumes'
@@ -226,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/resume'
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recruiters': {
+      id: '/recruiters'
+      path: '/recruiters'
+      fullPath: '/recruiters'
+      preLoaderRoute: typeof RecruitersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -270,6 +369,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -284,6 +390,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CopilotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/companies': {
+      id: '/companies'
+      path: '/companies'
+      fullPath: '/companies'
+      preLoaderRoute: typeof CompaniesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/automation': {
       id: '/automation'
       path: '/automation'
@@ -296,6 +409,13 @@ declare module '@tanstack/react-router' {
       path: '/approvals'
       fullPath: '/approvals'
       preLoaderRoute: typeof ApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -317,18 +437,24 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
   ApprovalsRoute: ApprovalsRoute,
   AutomationRoute: AutomationRoute,
+  CompaniesRoute: CompaniesRoute,
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
+  FeedRoute: FeedRoute,
   IntakeRoute: IntakeRoute,
   JobsRoute: JobsRoute,
   LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
   PipelineRoute: PipelineRoute,
   ProfileRoute: ProfileRoute,
+  RecruitersRoute: RecruitersRoute,
   ResumeRoute: ResumeRoute,
   ResumesRoute: ResumesRoute,
+  SourcesRoute: SourcesRoute,
+  StrategistRoute: StrategistRoute,
   ApiPublicHooksTickRoute: ApiPublicHooksTickRoute,
 }
 export const routeTree = rootRouteImport
