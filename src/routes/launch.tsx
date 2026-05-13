@@ -115,3 +115,62 @@ function Authed() {
     </AppShell>
   );
 }
+
+function Section({
+  title,
+  tone,
+  children,
+}: {
+  title: string;
+  tone: "success" | "warning";
+  children: React.ReactNode;
+}) {
+  const dot = tone === "success" ? "bg-success" : "bg-warning";
+  return (
+    <div className="rounded-lg border border-border bg-card p-4">
+      <div className="flex items-center gap-2 mb-3">
+        <span className={`size-1.5 rounded-full ${dot}`} />
+        <div className="text-[10px] font-mono uppercase tracking-wider text-foreground">{title}</div>
+      </div>
+      <div className="space-y-2">{children}</div>
+    </div>
+  );
+}
+
+function CheckRow({
+  c,
+  next,
+}: {
+  c: { id: string; label: string; ok: boolean; detail: string };
+  next?: { label: string; to: string };
+}) {
+  return (
+    <div className="flex items-start gap-3 text-xs">
+      <span className={`mt-1 size-1.5 rounded-full ${c.ok ? "bg-success" : "bg-warning animate-pulse-soft"}`} />
+      <div className="flex-1 min-w-0">
+        <div className="text-foreground">{c.label}</div>
+        <div className="text-[10px] text-muted mt-0.5">{c.detail}</div>
+      </div>
+      {next && (
+        <Link to={next.to} className="text-[10px] font-mono uppercase tracking-wider text-foreground hover:text-accent whitespace-nowrap">
+          {next.label} →
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function Badge({ label, value, tone }: { label: string; value: string; tone: "success" | "warning" | "muted" }) {
+  const cls =
+    tone === "success"
+      ? "border-success/30 bg-success/5"
+      : tone === "warning"
+      ? "border-warning/30 bg-warning/5"
+      : "border-border bg-card";
+  return (
+    <div className={`rounded-lg border ${cls} px-3 py-2.5`}>
+      <div className="text-[10px] font-mono uppercase tracking-wider text-muted">{label}</div>
+      <div className="mt-0.5 text-foreground">{value}</div>
+    </div>
+  );
+}
