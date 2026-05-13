@@ -19,6 +19,7 @@ import { Route as PrepRouteImport } from './routes/prep'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as OutreachRouteImport } from './routes/outreach'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ObservabilityRouteImport } from './routes/observability'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LaunchRouteImport } from './routes/launch'
@@ -87,6 +88,11 @@ const PackagesRoute = PackagesRouteImport.update({
 const OutreachRoute = OutreachRouteImport.update({
   id: '/outreach',
   path: '/outreach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ObservabilityRoute = ObservabilityRouteImport.update({
@@ -204,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/observability': typeof ObservabilityRoute
+  '/onboarding': typeof OnboardingRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
@@ -235,6 +242,7 @@ export interface FileRoutesByTo {
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/observability': typeof ObservabilityRoute
+  '/onboarding': typeof OnboardingRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
@@ -267,6 +275,7 @@ export interface FileRoutesById {
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/observability': typeof ObservabilityRoute
+  '/onboarding': typeof OnboardingRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
@@ -300,6 +309,7 @@ export interface FileRouteTypes {
     | '/launch'
     | '/login'
     | '/observability'
+    | '/onboarding'
     | '/outreach'
     | '/packages'
     | '/pipeline'
@@ -331,6 +341,7 @@ export interface FileRouteTypes {
     | '/launch'
     | '/login'
     | '/observability'
+    | '/onboarding'
     | '/outreach'
     | '/packages'
     | '/pipeline'
@@ -362,6 +373,7 @@ export interface FileRouteTypes {
     | '/launch'
     | '/login'
     | '/observability'
+    | '/onboarding'
     | '/outreach'
     | '/packages'
     | '/pipeline'
@@ -394,6 +406,7 @@ export interface RootRouteChildren {
   LaunchRoute: typeof LaunchRoute
   LoginRoute: typeof LoginRoute
   ObservabilityRoute: typeof ObservabilityRoute
+  OnboardingRoute: typeof OnboardingRoute
   OutreachRoute: typeof OutreachRoute
   PackagesRoute: typeof PackagesRoute
   PipelineRoute: typeof PipelineRoute
@@ -477,6 +490,13 @@ declare module '@tanstack/react-router' {
       path: '/outreach'
       fullPath: '/outreach'
       preLoaderRoute: typeof OutreachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/observability': {
@@ -634,6 +654,7 @@ const rootRouteChildren: RootRouteChildren = {
   LaunchRoute: LaunchRoute,
   LoginRoute: LoginRoute,
   ObservabilityRoute: ObservabilityRoute,
+  OnboardingRoute: OnboardingRoute,
   OutreachRoute: OutreachRoute,
   PackagesRoute: PackagesRoute,
   PipelineRoute: PipelineRoute,
