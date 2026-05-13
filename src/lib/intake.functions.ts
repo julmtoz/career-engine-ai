@@ -26,14 +26,55 @@ type DB = SupabaseClient<Database>;
 
 // ---------- Helpers -----------------------------------------------------
 
+// Reject internal/private/loopback/link-local destinations to prevent SSRF.
+function isPrivateHost(hostname: string): boolean {
+  const h = hostname.toLowerCase();
+  if (h === "localhost" || h.endsWith(".localhost") || h === "::1") return true;
+  // IPv4
+  const m = h.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (m) {
+    const [a, b] = [parseInt(m[1]), parseInt(m[2])];
+    if (a === 10) return true;
+    if (a === 127) return true;
+    if (a === 0) return true;
+    if (a === 169 && b === 254) return true; // link-local incl. AWS IMDS
+    if (a === 172 && b >= 16 && b <= 31) return true;
+    if (a === 192 && b === 168) return true;
+    if (a === 100 && b >= 64 && b <= 127) return true; // CGNAT
+    if (a >= 224) return true; // multicast / reserved
+  }
+  // IPv6 private/loopback/link-local prefixes
+  if (h.startsWith("fc") || h.startsWith("fd") || h.startsWith("fe80:") || h === "::") return true;
+  return false;
+}
+
 async function fetchJobUrl(url: string): Promise<string> {
-  const res = await fetch(url, {
+  let parsed: URL;
+  try { parsed = new URL(url); } catch { throw new Error("Invalid URL"); }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error("Only http(s) URLs are allowed");
+  }
+  if (isPrivateHost(parsed.hostname)) {
+    throw new Error("URL host is not allowed");
+  }
+  // Resolve to IP and re-check to defeat DNS-based SSRF.
+  try {
+    const dns = await import("node:dns/promises");
+    const records = await dns.lookup(parsed.hostname, { all: true });
+    if (records.some((r) => isPrivateHost(r.address))) {
+      throw new Error("URL resolves to a private address");
+    }
+  } catch (e) {
+    if (e instanceof Error && /private|not allowed/i.test(e.message)) throw e;
+    // DNS lookup failure — let fetch surface the real error below.
+  }
+  const res = await fetch(parsed.toString(), {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (compatible; AetherOS/1.0; +https://aether.os/intake)",
       Accept: "text/html,application/xhtml+xml",
     },
-    redirect: "follow",
+    redirect: "error", // do not follow — chained redirects can defeat host checks
     signal: AbortSignal.timeout(12_000),
   });
   if (!res.ok) throw new Error(`Failed to fetch URL (${res.status})`);
