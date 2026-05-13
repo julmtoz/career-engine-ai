@@ -5,10 +5,13 @@ import { useAuth } from "@/lib/auth-context";
 const NAV = [
   { to: "/dashboard", label: "Fleet" },
   { to: "/automation", label: "Automation" },
+  { to: "/intake", label: "Intake" },
   { to: "/jobs", label: "Opportunities" },
   { to: "/pipeline", label: "Pipeline" },
+  { to: "/approvals", label: "Approvals" },
+  { to: "/resumes", label: "Vault" },
+  { to: "/profile", label: "Profile" },
   { to: "/copilot", label: "Copilot" },
-  { to: "/resume", label: "Resume" },
   { to: "/outreach", label: "Outreach" },
 ] as const;
 
