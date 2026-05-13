@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as LoginRouteImport } from './routes/login'
@@ -23,6 +24,11 @@ import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hook
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineRoute = PipelineRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
+  '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
+  '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
+  '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/outreach'
     | '/pipeline'
+    | '/profile'
     | '/resume'
     | '/api/public/hooks/tick'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/outreach'
     | '/pipeline'
+    | '/profile'
     | '/resume'
     | '/api/public/hooks/tick'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/outreach'
     | '/pipeline'
+    | '/profile'
     | '/resume'
     | '/api/public/hooks/tick'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
   PipelineRoute: typeof PipelineRoute
+  ProfileRoute: typeof ProfileRoute
   ResumeRoute: typeof ResumeRoute
   ApiPublicHooksTickRoute: typeof ApiPublicHooksTickRoute
 }
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/resume'
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline': {
@@ -244,9 +264,20 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
   PipelineRoute: PipelineRoute,
+  ProfileRoute: ProfileRoute,
   ResumeRoute: ResumeRoute,
   ApiPublicHooksTickRoute: ApiPublicHooksTickRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
