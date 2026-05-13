@@ -21,6 +21,7 @@ import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as IntakeRouteImport } from './routes/intake'
+import { Route as FollowUpsRouteImport } from './routes/follow-ups'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
@@ -91,6 +92,11 @@ const IntakeRoute = IntakeRouteImport.update({
   path: '/intake',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FollowUpsRoute = FollowUpsRouteImport.update({
+  id: '/follow-ups',
+  path: '/follow-ups',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeedRoute = FeedRouteImport.update({
   id: '/feed',
   path: '/feed',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
+  '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
+  '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
@@ -193,6 +201,7 @@ export interface FileRoutesById {
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
+  '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/copilot'
     | '/dashboard'
     | '/feed'
+    | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/login'
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/copilot'
     | '/dashboard'
     | '/feed'
+    | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/login'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/copilot'
     | '/dashboard'
     | '/feed'
+    | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/login'
@@ -288,6 +300,7 @@ export interface RootRouteChildren {
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
   FeedRoute: typeof FeedRoute
+  FollowUpsRoute: typeof FollowUpsRoute
   IntakeRoute: typeof IntakeRoute
   JobsRoute: typeof JobsRoute
   LoginRoute: typeof LoginRoute
@@ -389,6 +402,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/follow-ups': {
+      id: '/follow-ups'
+      path: '/follow-ups'
+      fullPath: '/follow-ups'
+      preLoaderRoute: typeof FollowUpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/feed': {
       id: '/feed'
       path: '/feed'
@@ -464,6 +484,7 @@ const rootRouteChildren: RootRouteChildren = {
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
   FeedRoute: FeedRoute,
+  FollowUpsRoute: FollowUpsRoute,
   IntakeRoute: IntakeRoute,
   JobsRoute: JobsRoute,
   LoginRoute: LoginRoute,
