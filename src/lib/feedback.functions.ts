@@ -58,7 +58,7 @@ export const listFeedback = createServerFn({ method: "GET" })
       .order("created_at", { ascending: false })
       .limit(100);
     if (error) throw new Error(error.message);
-    return (data ?? []) as Array<Record<string, unknown>>;
+    return { items: (data ?? []) as Array<Record<string, any>> };
   });
 
 export const resolveFeedback = createServerFn({ method: "POST" })

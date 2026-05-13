@@ -64,7 +64,7 @@ export const getObservability = createServerFn({ method: "GET" })
     ]);
 
     const runRows = runs.data ?? [];
-    const completed = runRows.filter((r) => r.status === "completed");
+    const completed = runRows.filter((r) => r.status === "succeeded");
     const failed = runRows.filter((r) => r.status === "failed");
     const durations = completed.map((r) => r.duration_ms ?? 0).filter(Boolean).sort((a, b) => a - b);
     const p = (q: number) => durations.length ? durations[Math.min(durations.length - 1, Math.floor(durations.length * q))] : 0;
