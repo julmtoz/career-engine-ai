@@ -157,7 +157,7 @@ function Authed() {
           <Stat label="Awaiting approval" value={approvalQueue.length} warn />
           <Stat label="Queued tasks" value={queuedTasks.length} />
           <Stat label="Failed runs" value={failedRuns.length} danger={failedRuns.length > 0} />
-          <Stat label="Agents online" value={data?.agents.length ?? 0} />
+          <Stat label="Agents online" value={data?.agents?.length ?? 0} />
         </div>
 
         {/* Safety controls */}
