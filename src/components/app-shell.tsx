@@ -49,8 +49,7 @@ const SUB_NAV: Record<string, { label: string; tabs: NavItem[] }> = {
     label: "Profile",
     tabs: [
       { to: "/profile", label: "Profile" },
-      { to: "/resume", label: "Resume" },
-      { to: "/resumes", label: "Vault" },
+      { to: "/resumes", label: "Resumes" },
       { to: "/automation", label: "Automation" },
       { to: "/observability", label: "Activity" },
     ],
