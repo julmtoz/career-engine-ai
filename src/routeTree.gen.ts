@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StrategistRouteImport } from './routes/strategist'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as ResumesRouteImport } from './routes/resumes'
-import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrepRouteImport } from './routes/prep'
@@ -23,7 +22,6 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ObservabilityRouteImport } from './routes/observability'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LaunchRouteImport } from './routes/launch'
-import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as FollowUpsRouteImport } from './routes/follow-ups'
 import { Route as FeedbackRouteImport } from './routes/feedback'
@@ -53,11 +51,6 @@ const SourcesRoute = SourcesRouteImport.update({
 const ResumesRoute = ResumesRouteImport.update({
   id: '/resumes',
   path: '/resumes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResumeRoute = ResumeRouteImport.update({
-  id: '/resume',
-  path: '/resume',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecruitersRoute = RecruitersRouteImport.update({
@@ -108,11 +101,6 @@ const LoginRoute = LoginRouteImport.update({
 const LaunchRoute = LaunchRouteImport.update({
   id: '/launch',
   path: '/launch',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JobsRoute = JobsRouteImport.update({
-  id: '/jobs',
-  path: '/jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IntakeRoute = IntakeRouteImport.update({
@@ -206,7 +194,6 @@ export interface FileRoutesByFullPath {
   '/feedback': typeof FeedbackRoute
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
-  '/jobs': typeof JobsRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/observability': typeof ObservabilityRoute
@@ -217,7 +204,6 @@ export interface FileRoutesByFullPath {
   '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
-  '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
@@ -238,7 +224,6 @@ export interface FileRoutesByTo {
   '/feedback': typeof FeedbackRoute
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
-  '/jobs': typeof JobsRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/observability': typeof ObservabilityRoute
@@ -249,7 +234,6 @@ export interface FileRoutesByTo {
   '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
-  '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
@@ -271,7 +255,6 @@ export interface FileRoutesById {
   '/feedback': typeof FeedbackRoute
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
-  '/jobs': typeof JobsRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/observability': typeof ObservabilityRoute
@@ -282,7 +265,6 @@ export interface FileRoutesById {
   '/prep': typeof PrepRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
-  '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
@@ -305,7 +287,6 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/follow-ups'
     | '/intake'
-    | '/jobs'
     | '/launch'
     | '/login'
     | '/observability'
@@ -316,7 +297,6 @@ export interface FileRouteTypes {
     | '/prep'
     | '/profile'
     | '/recruiters'
-    | '/resume'
     | '/resumes'
     | '/sources'
     | '/strategist'
@@ -337,7 +317,6 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/follow-ups'
     | '/intake'
-    | '/jobs'
     | '/launch'
     | '/login'
     | '/observability'
@@ -348,7 +327,6 @@ export interface FileRouteTypes {
     | '/prep'
     | '/profile'
     | '/recruiters'
-    | '/resume'
     | '/resumes'
     | '/sources'
     | '/strategist'
@@ -369,7 +347,6 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/follow-ups'
     | '/intake'
-    | '/jobs'
     | '/launch'
     | '/login'
     | '/observability'
@@ -380,7 +357,6 @@ export interface FileRouteTypes {
     | '/prep'
     | '/profile'
     | '/recruiters'
-    | '/resume'
     | '/resumes'
     | '/sources'
     | '/strategist'
@@ -402,7 +378,6 @@ export interface RootRouteChildren {
   FeedbackRoute: typeof FeedbackRoute
   FollowUpsRoute: typeof FollowUpsRoute
   IntakeRoute: typeof IntakeRoute
-  JobsRoute: typeof JobsRoute
   LaunchRoute: typeof LaunchRoute
   LoginRoute: typeof LoginRoute
   ObservabilityRoute: typeof ObservabilityRoute
@@ -413,7 +388,6 @@ export interface RootRouteChildren {
   PrepRoute: typeof PrepRoute
   ProfileRoute: typeof ProfileRoute
   RecruitersRoute: typeof RecruitersRoute
-  ResumeRoute: typeof ResumeRoute
   ResumesRoute: typeof ResumesRoute
   SourcesRoute: typeof SourcesRoute
   StrategistRoute: typeof StrategistRoute
@@ -441,13 +415,6 @@ declare module '@tanstack/react-router' {
       path: '/resumes'
       fullPath: '/resumes'
       preLoaderRoute: typeof ResumesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resume': {
-      id: '/resume'
-      path: '/resume'
-      fullPath: '/resume'
-      preLoaderRoute: typeof ResumeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recruiters': {
@@ -518,13 +485,6 @@ declare module '@tanstack/react-router' {
       path: '/launch'
       fullPath: '/launch'
       preLoaderRoute: typeof LaunchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/jobs': {
-      id: '/jobs'
-      path: '/jobs'
-      fullPath: '/jobs'
-      preLoaderRoute: typeof JobsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/intake': {
@@ -650,7 +610,6 @@ const rootRouteChildren: RootRouteChildren = {
   FeedbackRoute: FeedbackRoute,
   FollowUpsRoute: FollowUpsRoute,
   IntakeRoute: IntakeRoute,
-  JobsRoute: JobsRoute,
   LaunchRoute: LaunchRoute,
   LoginRoute: LoginRoute,
   ObservabilityRoute: ObservabilityRoute,
@@ -661,7 +620,6 @@ const rootRouteChildren: RootRouteChildren = {
   PrepRoute: PrepRoute,
   ProfileRoute: ProfileRoute,
   RecruitersRoute: RecruitersRoute,
-  ResumeRoute: ResumeRoute,
   ResumesRoute: ResumesRoute,
   SourcesRoute: SourcesRoute,
   StrategistRoute: StrategistRoute,

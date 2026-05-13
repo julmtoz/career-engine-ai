@@ -32,25 +32,24 @@ const SUB_NAV: Record<string, { label: string; tabs: NavItem[] }> = {
     tabs: [
       { to: "/pipeline", label: "Active" },
       { to: "/packages", label: "Packages" },
-      { to: "/approvals", label: "Approvals" },
+      { to: "/approvals", label: "Needs review" },
       { to: "/follow-ups", label: "Follow-ups" },
-      { to: "/conversion", label: "Conversion" },
+      { to: "/conversion", label: "Outcomes" },
     ],
   },
   interviews: {
     label: "Interviews",
     tabs: [
       { to: "/prep", label: "Prep" },
-      { to: "/strategist", label: "Strategy" },
-      { to: "/copilot", label: "Copilot" },
+      { to: "/strategist", label: "Game plan" },
+      { to: "/copilot", label: "Live coach" },
     ],
   },
   profile: {
     label: "Profile",
     tabs: [
       { to: "/profile", label: "Profile" },
-      { to: "/resume", label: "Resume" },
-      { to: "/resumes", label: "Vault" },
+      { to: "/resumes", label: "Resumes" },
       { to: "/automation", label: "Automation" },
       { to: "/observability", label: "Activity" },
     ],
@@ -61,7 +60,7 @@ function sectionFor(pathname: string): keyof typeof SUB_NAV | null {
   if (["/feed", "/companies", "/recruiters", "/sources", "/intake"].some((p) => pathname.startsWith(p))) return "opportunities";
   if (["/pipeline", "/packages", "/approvals", "/follow-ups", "/conversion"].some((p) => pathname.startsWith(p))) return "pipeline";
   if (["/prep", "/strategist", "/copilot"].some((p) => pathname.startsWith(p))) return "interviews";
-  if (["/profile", "/resume", "/resumes", "/automation", "/observability"].some((p) => pathname.startsWith(p))) return "profile";
+  if (["/profile", "/resumes", "/automation", "/observability"].some((p) => pathname.startsWith(p))) return "profile";
   return null;
 }
 
