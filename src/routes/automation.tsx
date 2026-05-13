@@ -68,18 +68,18 @@ function Authed() {
 
   // Bootstrap once.
   useEffect(() => {
-    _bootstrap({}).catch(() => {});
+    _bootstrap().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const state = useQuery({
     queryKey: ["automation-state"],
-    queryFn: () => _state({}),
+    queryFn: () => _state(),
     refetchInterval: 4000,
   });
 
   const start = useMutation({
-    mutationFn: () => _start({}),
+    mutationFn: () => _start(),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["automation-state"] }),
   });
   const approve = useMutation({
@@ -91,7 +91,7 @@ function Authed() {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["automation-state"] }),
   });
   const pause = useMutation({
-    mutationFn: () => _pause({}),
+    mutationFn: () => _pause(),
     onSuccess: () => qc.invalidateQueries({ queryKey: ["automation-state"] }),
   });
   const autonomy = useMutation({
