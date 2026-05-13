@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as ProfileRouteImport } from './routes/profile'
@@ -24,6 +25,11 @@ import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hooks/tick'
 
+const SourcesRoute = SourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResumesRoute = ResumesRouteImport.update({
   id: '/resumes',
   path: '/resumes',
@@ -109,6 +115,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
+  '/sources': typeof SourcesRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesByTo {
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
+  '/sources': typeof SourcesRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesById {
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
+  '/sources': typeof SourcesRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRouteTypes {
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resume'
     | '/resumes'
+    | '/sources'
     | '/api/public/hooks/tick'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resume'
     | '/resumes'
+    | '/sources'
     | '/api/public/hooks/tick'
   id:
     | '__root__'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resume'
     | '/resumes'
+    | '/sources'
     | '/api/public/hooks/tick'
   fileRoutesById: FileRoutesById
 }
@@ -209,11 +221,19 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   ResumeRoute: typeof ResumeRoute
   ResumesRoute: typeof ResumesRoute
+  SourcesRoute: typeof SourcesRoute
   ApiPublicHooksTickRoute: typeof ApiPublicHooksTickRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sources': {
+      id: '/sources'
+      path: '/sources'
+      fullPath: '/sources'
+      preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resumes': {
       id: '/resumes'
       path: '/resumes'
@@ -329,8 +349,19 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   ResumeRoute: ResumeRoute,
   ResumesRoute: ResumesRoute,
+  SourcesRoute: SourcesRoute,
   ApiPublicHooksTickRoute: ApiPublicHooksTickRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
