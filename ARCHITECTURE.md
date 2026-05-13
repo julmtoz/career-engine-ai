@@ -142,3 +142,36 @@ handled in connector functions, never exposed to client.
 3. Email/LinkedIn send-out is draft-only; we do not yet hold OAuth tokens for either channel.
 4. Agent memory uses pgvector but recall is not yet wired into the Strategist prompts.
 5. Cron tick endpoint (`/api/public/hooks/tick`) exists but is not yet attached to a scheduled job — invoke manually for now.
+
+---
+
+## Beta Demo Flow
+
+The fastest path from cold install to "I get it":
+
+1. Sign in (`/login`) — email/password.
+2. Open **Demo** (`/demo`) and click **Seed demo data** — populates your private workspace with a profile, 3 companies, 3 jobs, 3 recruiters, and 1 in-pipeline application. Everything is tagged `source='demo'` and reversible.
+3. Walk the 9-step tour: Dashboard → Feed → Packages → Approvals → Pipeline → Follow-ups → Conversion → Launch.
+4. Click **Wipe demo data** when finished — only `source='demo'` rows are deleted.
+
+## Integration Status
+
+| Surface | Status |
+|---|---|
+| Greenhouse public boards | **Live** |
+| Lever public postings | **Live** |
+| Workday / Ashby / RSS / careers pages | Manual via `/intake` (URL paste) |
+| Resume parsing (PDF/DOCX) | **Live** (client-side via pdfjs/mammoth + AI structuring) |
+| AI gateway (Lovable AI) | **Live** |
+| Email send-out | Draft-only (no SMTP/OAuth) |
+| LinkedIn outreach | Draft-only (no API) |
+| Auto-apply | Disabled by design |
+| Cron tick (`/api/public/hooks/tick`) | Endpoint live, scheduler not attached |
+
+## Recommended Next Steps After Beta
+
+1. Wire `/api/public/hooks/tick` to a cron schedule for autonomous source sync.
+2. Add OAuth for Gmail + LinkedIn so approved drafts can actually send.
+3. Promote agent memory recall into Strategist prompt context.
+4. Ship Workday + Ashby connectors behind their API gates.
+5. Build a billing/limits surface once the first 25 beta users are active.
