@@ -32,17 +32,17 @@ const SUB_NAV: Record<string, { label: string; tabs: NavItem[] }> = {
     tabs: [
       { to: "/pipeline", label: "Active" },
       { to: "/packages", label: "Packages" },
-      { to: "/approvals", label: "Approvals" },
+      { to: "/approvals", label: "Needs review" },
       { to: "/follow-ups", label: "Follow-ups" },
-      { to: "/conversion", label: "Conversion" },
+      { to: "/conversion", label: "Outcomes" },
     ],
   },
   interviews: {
     label: "Interviews",
     tabs: [
       { to: "/prep", label: "Prep" },
-      { to: "/strategist", label: "Strategy" },
-      { to: "/copilot", label: "Copilot" },
+      { to: "/strategist", label: "Game plan" },
+      { to: "/copilot", label: "Live coach" },
     ],
   },
   profile: {
