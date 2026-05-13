@@ -8,6 +8,15 @@ import { MatchRing } from "@/components/match-ring";
 import { getActivation } from "@/lib/activation.functions";
 import { MissionControl } from "@/components/mission-control";
 import {
+  AutomationStateBar,
+  OrchestrationTimeline,
+  ReasoningStream,
+  LiveQueueMap,
+  AgentCoordinationView,
+  OpportunityIntelCard,
+  SAMPLE_OPPS,
+} from "@/components/signature";
+import {
   agentFleet,
   dashboardMetrics,
   jobs,
