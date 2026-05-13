@@ -16,6 +16,7 @@ import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobsRouteImport } from './routes/jobs'
+import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as AutomationRouteImport } from './routes/automation'
@@ -57,6 +58,11 @@ const JobsRoute = JobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IntakeRoute = IntakeRouteImport.update({
+  id: '/intake',
+  path: '/intake',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/automation': typeof AutomationRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
+  '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/automation': typeof AutomationRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
+  '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/automation': typeof AutomationRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
+  '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/automation'
     | '/copilot'
     | '/dashboard'
+    | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/automation'
     | '/copilot'
     | '/dashboard'
+    | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/automation'
     | '/copilot'
     | '/dashboard'
+    | '/intake'
     | '/jobs'
     | '/login'
     | '/outreach'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   AutomationRoute: typeof AutomationRoute
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
+  IntakeRoute: typeof IntakeRoute
   JobsRoute: typeof JobsRoute
   LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/intake': {
+      id: '/intake'
+      path: '/intake'
+      fullPath: '/intake'
+      preLoaderRoute: typeof IntakeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -280,6 +300,7 @@ const rootRouteChildren: RootRouteChildren = {
   AutomationRoute: AutomationRoute,
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
+  IntakeRoute: IntakeRoute,
   JobsRoute: JobsRoute,
   LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
