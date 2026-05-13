@@ -97,7 +97,7 @@ export async function tickNode(
     node_id: node.id,
     status: "running",
     started_at: new Date().toISOString(),
-    input: { context: run.context },
+    input: { context: run.context } as never,
     agent_kind: node.type === "agent" ? node.agent : null,
   });
 
