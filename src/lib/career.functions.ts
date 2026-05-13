@@ -487,7 +487,16 @@ export const rejectWorkflow = createServerFn({ method: "POST" })
     z.object({ workflowRunId: z.string().uuid(), reason: z.string().max(500).optional() }).parse(d),
   )
   .handler(async ({ data, context }) => {
-    const { supabase } = context as { supabase: DB };
+    const { supabase, userId } = context as { supabase: DB; userId: string };
+    // Verify the run belongs to the caller before any mutation.
+    const ownRun = await supabase
+      .from("workflow_runs")
+      .select("id")
+      .eq("id", data.workflowRunId)
+      .eq("user_id", userId)
+      .maybeSingle();
+    if (!ownRun.data) throw new Error("workflow run not found");
+
     const stepsRes = await supabase
       .from("workflow_steps")
       .select("id, node_id")
@@ -502,7 +511,8 @@ export const rejectWorkflow = createServerFn({ method: "POST" })
     await supabase
       .from("workflow_runs")
       .update({ status: "cancelled", error: data.reason ?? "rejected by user", finished_at: new Date().toISOString() })
-      .eq("id", data.workflowRunId);
+      .eq("id", data.workflowRunId)
+      .eq("user_id", userId);
     return { ok: true };
   });
 
@@ -552,6 +562,17 @@ export const getAutomationState = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { supabase, userId } = context as { supabase: DB; userId: string };
 
+    // Pre-fetch the user's recent run IDs so we can scope workflow_steps to
+    // them — workflow_steps has no user_id column, so we must filter via the
+    // owning workflow_runs to prevent cross-tenant reads.
+    const ownRuns = await supabase
+      .from("workflow_runs")
+      .select("id")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(50);
+    const ownRunIds = (ownRuns.data ?? []).map((r) => r.id);
+
     const [prefs, agents, runsRes, stepsRes, queueRes, decisionsRes, notificationsRes] =
       await Promise.all([
         supabase.from("user_preferences").select("*").eq("user_id", userId).maybeSingle(),
@@ -562,11 +583,14 @@ export const getAutomationState = createServerFn({ method: "GET" })
           .eq("user_id", userId)
           .order("created_at", { ascending: false })
           .limit(25),
-        supabase
-          .from("workflow_steps")
-          .select("*")
-          .order("created_at", { ascending: true })
-          .limit(300),
+        ownRunIds.length
+          ? supabase
+              .from("workflow_steps")
+              .select("*")
+              .in("workflow_run_id", ownRunIds)
+              .order("created_at", { ascending: true })
+              .limit(300)
+          : Promise.resolve({ data: [] as never[] }),
         supabase
           .from("task_queue")
           .select("id, kind, status, attempt, max_attempts, last_error, scheduled_for, priority, created_at")

@@ -6,6 +6,7 @@
  * inspection console for the workspace owner, not cross-tenant access.
  */
 import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Database } from "@/integrations/supabase/types";
@@ -106,7 +107,7 @@ export const getDebugSnapshot = createServerFn({ method: "GET" })
 // Retry a failed/dead_letter task
 export const retryTask = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { taskId: string }) => d)
+  .inputValidator((d) => z.object({ taskId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context as { supabase: DB; userId: string };
     const r = await supabase
