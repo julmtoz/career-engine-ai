@@ -117,31 +117,55 @@ function Dashboard() {
         </div>
 
         {/* Mission control viz */}
-        <div className="mb-6">
+        <div className="mb-4">
           <MissionControl compact />
         </div>
 
+        {/* Automation state strip */}
+        <div className="mb-6">
+          <AutomationStateBar />
+        </div>
+
         {/* Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden mb-6">
           <MetricCard label="Discovery velocity" value={m.jobsScanned.value.toLocaleString()} delta={m.jobsScanned.delta} />
           <MetricCard label="Match accuracy" value={m.matchAccuracy.value} delta={m.matchAccuracy.delta} />
           <MetricCard label="Outreach flow" value={m.outreachActive.value} delta={m.outreachActive.delta} />
           <MetricCard label="Interview yield" value={m.interviewsBooked.value} delta={m.interviewsBooked.delta} highlight />
         </div>
 
+        {/* Orchestration timeline — signature primitive */}
+        <div className="mb-6">
+          <OrchestrationTimeline />
+        </div>
+
+        {/* Triple panel: reasoning · queue map · coordination */}
+        <div className="grid grid-cols-12 gap-6 mb-6">
+          <div className="col-span-12 lg:col-span-7">
+            <ReasoningStream />
+          </div>
+          <div className="col-span-12 lg:col-span-5 space-y-6">
+            <LiveQueueMap />
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <AgentCoordinationView />
+        </div>
+
         {/* Main grid */}
         <div className="grid grid-cols-12 gap-6">
-          {/* Left: priority opportunities */}
+          {/* Left: priority opportunities — using new intel cards */}
           <div className="col-span-12 lg:col-span-8 space-y-6">
-            <section className="border border-border rounded-2xl bg-card p-6">
-              <div className="flex items-center justify-between mb-6">
+            <section>
+              <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="font-display text-xl font-extrabold tracking-tight">
-                    Priority opportunities
-                  </h2>
-                  <p className="text-xs text-muted mt-1">
-                    Strategist agent re-ranked these 4 minutes ago
+                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent mb-1">
+                    ─ Priority intelligence
                   </p>
+                  <h2 className="font-display text-xl font-extrabold tracking-tight">
+                    Opportunities under acquisition
+                  </h2>
                 </div>
                 <Link
                   to="/jobs"
@@ -151,14 +175,14 @@ function Dashboard() {
                 </Link>
               </div>
               <div className="space-y-3">
-                {jobs.slice(0, 3).map((j) => (
-                  <JobCard key={j.id} job={j} />
+                {SAMPLE_OPPS.map((o) => (
+                  <OpportunityIntelCard key={o.company} o={o} />
                 ))}
               </div>
             </section>
 
             {/* Pipeline summary */}
-            <section className="border border-border rounded-2xl bg-card p-6">
+            <section className="surface rounded-2xl p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="font-display text-xl font-extrabold tracking-tight">
                   Acquisition funnel
@@ -176,7 +200,7 @@ function Dashboard() {
                     <div className="h-24 flex items-end">
                       <div
                         className="w-full bg-accent/15 rounded-t border-t-2 border-accent transition-all"
-                        style={{ height: `${Math.max(s.count * 22, 4)}px` }}
+                        style={{ height: `${Math.max(s.count * 22, 4)}px`, boxShadow: "0 0 12px color-mix(in oklab, var(--color-accent) 30%, transparent)" }}
                       />
                     </div>
                     <div className="font-display text-lg font-extrabold mt-2">{s.count}</div>
