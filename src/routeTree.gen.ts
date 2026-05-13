@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StrategistRouteImport } from './routes/strategist'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as ResumeRouteImport } from './routes/resume'
@@ -28,6 +29,11 @@ import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hooks/tick'
 
+const StrategistRoute = StrategistRouteImport.update({
+  id: '/strategist',
+  path: '/strategist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SourcesRoute = SourcesRouteImport.update({
   id: '/sources',
   path: '/sources',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
+  '/strategist': typeof StrategistRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesByTo {
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
+  '/strategist': typeof StrategistRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesById {
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
+  '/strategist': typeof StrategistRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRouteTypes {
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/resume'
     | '/resumes'
     | '/sources'
+    | '/strategist'
     | '/api/public/hooks/tick'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/resume'
     | '/resumes'
     | '/sources'
+    | '/strategist'
     | '/api/public/hooks/tick'
   id:
     | '__root__'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/resume'
     | '/resumes'
     | '/sources'
+    | '/strategist'
     | '/api/public/hooks/tick'
   fileRoutesById: FileRoutesById
 }
@@ -261,11 +273,19 @@ export interface RootRouteChildren {
   ResumeRoute: typeof ResumeRoute
   ResumesRoute: typeof ResumesRoute
   SourcesRoute: typeof SourcesRoute
+  StrategistRoute: typeof StrategistRoute
   ApiPublicHooksTickRoute: typeof ApiPublicHooksTickRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/strategist': {
+      id: '/strategist'
+      path: '/strategist'
+      fullPath: '/strategist'
+      preLoaderRoute: typeof StrategistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sources': {
       id: '/sources'
       path: '/sources'
@@ -413,6 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResumeRoute: ResumeRoute,
   ResumesRoute: ResumesRoute,
   SourcesRoute: SourcesRoute,
+  StrategistRoute: StrategistRoute,
   ApiPublicHooksTickRoute: ApiPublicHooksTickRoute,
 }
 export const routeTree = rootRouteImport
