@@ -95,6 +95,7 @@ function Dashboard() {
   return (
     <AppShell>
       <div className="max-w-7xl mx-auto px-6 py-8">
+        <ActivationBanner />
         {/* Header */}
         <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
