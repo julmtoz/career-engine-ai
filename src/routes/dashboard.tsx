@@ -2,267 +2,198 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/app-shell";
-import { AgentStream } from "@/components/agent-stream";
-import { JobCard } from "@/components/job-card";
-import { MatchRing } from "@/components/match-ring";
+import { useAuth } from "@/lib/auth-context";
 import { getActivation } from "@/lib/activation.functions";
-import { MissionControl } from "@/components/mission-control";
-import {
-  AutomationStateBar,
-  OrchestrationTimeline,
-  ReasoningStream,
-  LiveQueueMap,
-  AgentCoordinationView,
-  OpportunityIntelCard,
-  SAMPLE_OPPS,
-} from "@/components/signature";
-import {
-  agentFleet,
-  dashboardMetrics,
-  jobs,
-  pipelineStages,
-} from "@/lib/mock-data";
-
-function ActivationBanner() {
-  const _get = useServerFn(getActivation);
-  const q = useQuery({ queryKey: ["activation"], queryFn: () => _get(), refetchInterval: 15000 });
-  const d = q.data;
-  if (!d || d.score === 100) return null;
-  return (
-    <Link
-      to="/onboarding"
-      className="block mb-6 rounded-2xl border border-accent/30 bg-accent/5 p-5 hover:bg-accent/10 transition"
-    >
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="min-w-0">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-accent mb-1">Activation · {d.completed}/{d.total}</p>
-          <p className="font-medium">
-            {d.next ? <>Next up: <span className="font-serif italic">{d.next.label}</span> — {d.next.description}</> : "Almost there."}
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="w-32 h-1.5 bg-foreground/10 rounded-full overflow-hidden">
-            <div className="h-full bg-accent" style={{ width: `${d.score}%` }} />
-          </div>
-          <span className="text-xs px-3 py-1.5 bg-foreground text-background rounded-md font-medium">Continue →</span>
-        </div>
-      </div>
-    </Link>
-  );
-}
+import { jobs } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/dashboard")({
-  component: Dashboard,
+  component: TodayPage,
   head: () => ({
     meta: [
-      { title: "Fleet — Aether OS" },
-      { name: "description", content: "Live command center for your autonomous career agents." },
+      { title: "Today — Aether" },
+      { name: "description", content: "Your daily AI briefing: what Aether worked on, what needs you, what's next." },
     ],
   }),
 });
 
-function MetricCard({
-  label,
-  value,
-  delta,
-  highlight = false,
-}: {
-  label: string;
-  value: string | number;
-  delta: string;
-  highlight?: boolean;
-}) {
+function TodayPage() {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return (
+      <AppShell>
+        <div className="py-32 text-center text-sm text-muted-foreground">Loading…</div>
+      </AppShell>
+    );
+  }
+  if (!user) {
+    return (
+      <AppShell>
+        <div className="py-32 text-center">
+          <Link to="/login" className="text-accent hover:underline">Sign in to continue</Link>
+        </div>
+      </AppShell>
+    );
+  }
   return (
-    <div className={`relative p-4 surface ${highlight ? "bg-elevated" : ""}`}>
-      {highlight && <span className="absolute top-2 right-2 size-1.5 rounded-full bg-signal animate-pulse-soft" />}
-      <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-muted mb-2">{label}</p>
-      <div className="flex items-end gap-2">
-        <span className={`font-display text-2xl font-extrabold tracking-tight ${highlight ? "text-accent text-glow" : ""}`}>{value}</span>
-        <span className={`text-[10px] font-mono mb-1 ${highlight ? "text-accent" : "text-signal"}`}>{delta}</span>
-      </div>
+    <AppShell>
+      <Today email={user.email ?? ""} />
+    </AppShell>
+  );
+}
+
+function Today({ email }: { email: string }) {
+  const _activation = useServerFn(getActivation);
+  const activationQ = useQuery({ queryKey: ["activation"], queryFn: () => _activation() });
+  const a = activationQ.data;
+  const firstName = (email.split("@")[0] ?? "there").replace(/[._-]/g, " ").split(" ")[0];
+  const greeting = greetingFor(new Date());
+  const topMatches = jobs.slice(0, 3);
+
+  return (
+    <div className="max-w-5xl mx-auto px-6 py-12 space-y-10">
+      {/* Greeting */}
+      <header className="animate-float">
+        <p className="text-[13px] text-muted-foreground mb-2">
+          {new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}
+        </p>
+        <h1 className="font-serif text-5xl md:text-6xl tracking-tight">
+          {greeting}, {capitalize(firstName)}.
+        </h1>
+      </header>
+
+      {/* Activation nudge (only if incomplete) */}
+      {a && a.score < 100 && (
+        <Link
+          to="/onboarding"
+          className="block surface rounded-2xl p-5 hover:bg-secondary/40 transition animate-float"
+        >
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="min-w-0">
+              <p className="text-[12px] text-accent font-medium mb-1">Setup · {a.completed}/{a.total} complete</p>
+              <p className="text-[14px] font-medium">
+                {a.next ? <>Next: {a.next.label}</> : "Almost there"}
+              </p>
+              {a.next?.description && (
+                <p className="text-[13px] text-muted-foreground mt-0.5">{a.next.description}</p>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-32 h-1 bg-secondary rounded-full overflow-hidden">
+                <div className="h-full bg-accent rounded-full" style={{ width: `${a.score}%` }} />
+              </div>
+              <span className="text-[13px] font-medium text-foreground">Continue →</span>
+            </div>
+          </div>
+        </Link>
+      )}
+
+      {/* Morning briefing */}
+      <section className="surface-raised rounded-2xl p-8 animate-float">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <p className="text-[12px] text-muted-foreground mb-1">Morning briefing</p>
+            <h2 className="font-serif text-2xl tracking-tight">Here's what I worked on overnight.</h2>
+          </div>
+          <span className="text-[11px] font-medium px-2 py-1 rounded-full bg-secondary text-muted-foreground">Updated 2m ago</span>
+        </div>
+        <ul className="space-y-3">
+          {[
+            "Reviewed 228 new roles. 3 are strong matches for your senior infra criteria.",
+            "Drafted 4 tailored applications. They're waiting for your one-tap approval.",
+            "Sarah at Stripe replied — she'd like to schedule a 30-minute screen this week.",
+          ].map((line, i) => (
+            <li key={i} className="flex gap-3 text-[15px] leading-relaxed">
+              <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-7 flex flex-wrap gap-2">
+          <Link to="/approvals" className="text-[13px] font-medium px-3.5 py-2 rounded-lg bg-accent text-accent-foreground hover:opacity-90 transition">
+            Review 4 applications
+          </Link>
+          <Link to="/prep" className="text-[13px] font-medium px-3.5 py-2 rounded-lg surface hover:bg-secondary/60 transition">
+            Prep for Stripe screen
+          </Link>
+          <Link to="/feed" className="text-[13px] font-medium px-3.5 py-2 rounded-lg surface hover:bg-secondary/60 transition">
+            See top matches
+          </Link>
+        </div>
+      </section>
+
+      {/* Outcome metrics */}
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {[
+          { v: "2", l: "Interviews this week", d: "+1 vs last week" },
+          { v: "4", l: "Replies", d: "Last 7 days" },
+          { v: "27", l: "Applications sent", d: "All tailored" },
+          { v: "82%", l: "Match quality", d: "Above target" },
+        ].map((m) => (
+          <div key={m.l} className="surface rounded-xl p-5">
+            <div className="font-serif text-4xl tracking-tight">{m.v}</div>
+            <div className="text-[13px] mt-2 font-medium">{m.l}</div>
+            <div className="text-[12px] text-muted-foreground mt-0.5">{m.d}</div>
+          </div>
+        ))}
+      </section>
+
+      {/* Top opportunities */}
+      <section>
+        <div className="flex items-end justify-between mb-4">
+          <div>
+            <h2 className="font-serif text-2xl tracking-tight">Top opportunities for you today</h2>
+            <p className="text-[13px] text-muted-foreground mt-1">Hand-picked by Aether based on your taste.</p>
+          </div>
+          <Link to="/feed" className="text-[13px] text-accent hover:underline">View all →</Link>
+        </div>
+        <div className="space-y-3">
+          {topMatches.map((j) => (
+            <article key={j.id} className="surface rounded-xl p-5 hover:shadow-sm transition">
+              <div className="flex items-start gap-5">
+                <div className="shrink-0 size-12 rounded-lg bg-secondary grid place-items-center font-serif text-lg">
+                  {j.company[0]}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h3 className="font-medium text-[15px]">{j.title}</h3>
+                    <span className="text-[12px] text-muted-foreground">{j.company}</span>
+                  </div>
+                  <p className="text-[13px] text-muted-foreground mt-1">
+                    {j.location} · {j.salary} · {j.postedAgo}
+                  </p>
+                  <p className="text-[13px] text-foreground/80 mt-3 leading-relaxed line-clamp-2">
+                    {j.reasoning}
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="font-serif text-3xl tracking-tight">{j.matchScore}</div>
+                  <div className="text-[11px] text-muted-foreground uppercase tracking-wide">Match</div>
+                </div>
+              </div>
+              <div className="mt-4 flex gap-2">
+                <button className="text-[13px] font-medium px-3 py-1.5 rounded-lg bg-foreground text-background hover:opacity-90 transition">
+                  Apply with Aether
+                </button>
+                <button className="text-[13px] font-medium px-3 py-1.5 rounded-lg surface hover:bg-secondary/60 transition">
+                  Save for later
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
-function Dashboard() {
-  const m = dashboardMetrics;
-  const counts = pipelineStages.map((s) => ({
-    ...s,
-    count: jobs.filter((j) => j.stage === s.id).length,
-  }));
 
-  return (
-    <AppShell>
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <ActivationBanner />
-        {/* Header */}
-        <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
-          <div>
-            <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent mb-2">
-              ─ Command center · live
-            </p>
-            <h1 className="font-display text-3xl md:text-4xl tracking-[-0.02em] font-extrabold">
-              Good evening, <span className="font-serif italic font-bold text-accent">Alex.</span>
-            </h1>
-            <p className="text-muted text-sm mt-1.5">
-              Fleet ran <span className="text-foreground font-mono">1,402</span> ops today ·
-              <span className="text-signal"> 4 interviews</span> on the runway.
-            </p>
-          </div>
-          <Link
-            to="/jobs"
-            className="px-4 py-2 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-widest rounded-md glow-accent"
-          >
-            Re-rank feed →
-          </Link>
-        </div>
+function greetingFor(d: Date) {
+  const h = d.getHours();
+  if (h < 5) return "Still up";
+  if (h < 12) return "Good morning";
+  if (h < 18) return "Good afternoon";
+  return "Good evening";
+}
 
-        {/* Mission control viz */}
-        <div className="mb-4">
-          <MissionControl compact />
-        </div>
-
-        {/* Automation state strip */}
-        <div className="mb-6">
-          <AutomationStateBar />
-        </div>
-
-        {/* Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden mb-6">
-          <MetricCard label="Discovery velocity" value={m.jobsScanned.value.toLocaleString()} delta={m.jobsScanned.delta} />
-          <MetricCard label="Match accuracy" value={m.matchAccuracy.value} delta={m.matchAccuracy.delta} />
-          <MetricCard label="Outreach flow" value={m.outreachActive.value} delta={m.outreachActive.delta} />
-          <MetricCard label="Interview yield" value={m.interviewsBooked.value} delta={m.interviewsBooked.delta} highlight />
-        </div>
-
-        {/* Orchestration timeline — signature primitive */}
-        <div className="mb-6">
-          <OrchestrationTimeline />
-        </div>
-
-        {/* Triple panel: reasoning · queue map · coordination */}
-        <div className="grid grid-cols-12 gap-6 mb-6">
-          <div className="col-span-12 lg:col-span-7">
-            <ReasoningStream />
-          </div>
-          <div className="col-span-12 lg:col-span-5 space-y-6">
-            <LiveQueueMap />
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <AgentCoordinationView />
-        </div>
-
-        {/* Main grid */}
-        <div className="grid grid-cols-12 gap-6">
-          {/* Left: priority opportunities — using new intel cards */}
-          <div className="col-span-12 lg:col-span-8 space-y-6">
-            <section>
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent mb-1">
-                    ─ Priority intelligence
-                  </p>
-                  <h2 className="font-display text-xl font-extrabold tracking-tight">
-                    Opportunities under acquisition
-                  </h2>
-                </div>
-                <Link
-                  to="/jobs"
-                  className="text-[10px] font-mono uppercase tracking-widest text-muted hover:text-foreground"
-                >
-                  View all →
-                </Link>
-              </div>
-              <div className="space-y-3">
-                {SAMPLE_OPPS.map((o) => (
-                  <OpportunityIntelCard key={o.company} o={o} />
-                ))}
-              </div>
-            </section>
-
-            {/* Pipeline summary */}
-            <section className="surface rounded-2xl p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="font-display text-xl font-extrabold tracking-tight">
-                  Acquisition funnel
-                </h2>
-                <Link
-                  to="/pipeline"
-                  className="text-[10px] font-mono uppercase tracking-widest text-muted hover:text-foreground"
-                >
-                  Open pipeline →
-                </Link>
-              </div>
-              <div className="grid grid-cols-7 gap-2">
-                {counts.map((s) => (
-                  <div key={s.id} className="text-center">
-                    <div className="h-24 flex items-end">
-                      <div
-                        className="w-full bg-accent/15 rounded-t border-t-2 border-accent transition-all"
-                        style={{ height: `${Math.max(s.count * 22, 4)}px`, boxShadow: "0 0 12px color-mix(in oklab, var(--color-accent) 30%, transparent)" }}
-                      />
-                    </div>
-                    <div className="font-display text-lg font-extrabold mt-2">{s.count}</div>
-                    <div className="text-[9px] font-mono uppercase tracking-widest text-muted">
-                      {s.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          {/* Right: agent stream + fleet */}
-          <div className="col-span-12 lg:col-span-4 space-y-6">
-            <AgentStream height="480px" />
-
-            <section className="border border-border rounded-2xl bg-card p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[10px] font-mono uppercase tracking-widest text-muted">
-                  Active fleet
-                </h3>
-                <span className="text-[10px] font-mono text-success">
-                  {agentFleet.filter((a) => a.status === "active").length} working
-                </span>
-              </div>
-              <ul className="space-y-3">
-                {agentFleet.map((a) => (
-                  <li key={a.id} className="flex items-start gap-3">
-                    <span
-                      className={`size-2 rounded-full mt-1.5 shrink-0 ${
-                        a.status === "active"
-                          ? "bg-accent animate-pulse-soft"
-                          : a.status === "idle"
-                            ? "bg-muted/50"
-                            : "bg-warning"
-                      }`}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-baseline justify-between gap-2">
-                        <span className="text-xs font-mono uppercase font-medium tracking-wider">
-                          {a.codename}
-                        </span>
-                        <span className="text-[9px] font-mono uppercase text-muted tracking-widest">
-                          {a.role}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-muted leading-snug mt-0.5">{a.task}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </section>
-
-            <section className="border border-border rounded-2xl bg-card p-6 grid place-items-center">
-              <MatchRing value={92} label="Avg match" />
-              <p className="text-xs text-muted text-center mt-4">
-                Across <span className="font-mono text-foreground">142</span> live opportunities
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-    </AppShell>
-  );
+function capitalize(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
