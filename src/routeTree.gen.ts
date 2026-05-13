@@ -19,11 +19,13 @@ import { Route as PrepRouteImport } from './routes/prep'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as OutreachRouteImport } from './routes/outreach'
+import { Route as ObservabilityRouteImport } from './routes/observability'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LaunchRouteImport } from './routes/launch'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as FollowUpsRouteImport } from './routes/follow-ups'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -87,6 +89,11 @@ const OutreachRoute = OutreachRouteImport.update({
   path: '/outreach',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ObservabilityRoute = ObservabilityRouteImport.update({
+  id: '/observability',
+  path: '/observability',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -110,6 +117,11 @@ const IntakeRoute = IntakeRouteImport.update({
 const FollowUpsRoute = FollowUpsRouteImport.update({
   id: '/follow-ups',
   path: '/follow-ups',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeedRoute = FeedRouteImport.update({
@@ -185,11 +197,13 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/demo': typeof DemoRoute
   '/feed': typeof FeedRoute
+  '/feedback': typeof FeedbackRoute
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
+  '/observability': typeof ObservabilityRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
@@ -214,11 +228,13 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/demo': typeof DemoRoute
   '/feed': typeof FeedRoute
+  '/feedback': typeof FeedbackRoute
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
+  '/observability': typeof ObservabilityRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
@@ -244,11 +260,13 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/demo': typeof DemoRoute
   '/feed': typeof FeedRoute
+  '/feedback': typeof FeedbackRoute
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
+  '/observability': typeof ObservabilityRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
@@ -275,11 +293,13 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/demo'
     | '/feed'
+    | '/feedback'
     | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/launch'
     | '/login'
+    | '/observability'
     | '/outreach'
     | '/packages'
     | '/pipeline'
@@ -304,11 +324,13 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/demo'
     | '/feed'
+    | '/feedback'
     | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/launch'
     | '/login'
+    | '/observability'
     | '/outreach'
     | '/packages'
     | '/pipeline'
@@ -333,11 +355,13 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/demo'
     | '/feed'
+    | '/feedback'
     | '/follow-ups'
     | '/intake'
     | '/jobs'
     | '/launch'
     | '/login'
+    | '/observability'
     | '/outreach'
     | '/packages'
     | '/pipeline'
@@ -363,11 +387,13 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   DemoRoute: typeof DemoRoute
   FeedRoute: typeof FeedRoute
+  FeedbackRoute: typeof FeedbackRoute
   FollowUpsRoute: typeof FollowUpsRoute
   IntakeRoute: typeof IntakeRoute
   JobsRoute: typeof JobsRoute
   LaunchRoute: typeof LaunchRoute
   LoginRoute: typeof LoginRoute
+  ObservabilityRoute: typeof ObservabilityRoute
   OutreachRoute: typeof OutreachRoute
   PackagesRoute: typeof PackagesRoute
   PipelineRoute: typeof PipelineRoute
@@ -453,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OutreachRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/observability': {
+      id: '/observability'
+      path: '/observability'
+      fullPath: '/observability'
+      preLoaderRoute: typeof ObservabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -486,6 +519,13 @@ declare module '@tanstack/react-router' {
       path: '/follow-ups'
       fullPath: '/follow-ups'
       preLoaderRoute: typeof FollowUpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feed': {
@@ -587,11 +627,13 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   DemoRoute: DemoRoute,
   FeedRoute: FeedRoute,
+  FeedbackRoute: FeedbackRoute,
   FollowUpsRoute: FollowUpsRoute,
   IntakeRoute: IntakeRoute,
   JobsRoute: JobsRoute,
   LaunchRoute: LaunchRoute,
   LoginRoute: LoginRoute,
+  ObservabilityRoute: ObservabilityRoute,
   OutreachRoute: OutreachRoute,
   PackagesRoute: PackagesRoute,
   PipelineRoute: PipelineRoute,
