@@ -60,6 +60,7 @@ export const getStrategistRecommendations = createServerFn({ method: "POST" })
     return {
       reasoning: result.reasoning,
       confidence: result.confidence,
-      output: JSON.parse(JSON.stringify(result.output)) as Record<string, never>,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      output: JSON.parse(JSON.stringify(result.output)) as Record<string, any>,
     };
   });
