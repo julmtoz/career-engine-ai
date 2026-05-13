@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MissionControl } from "@/components/mission-control";
+import { OrchestrationTimeline, ReasoningStream, AutomationStateBar, OpportunityIntelCard, SAMPLE_OPPS } from "@/components/signature";
 import { fleetStats } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
