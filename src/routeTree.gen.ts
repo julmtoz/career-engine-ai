@@ -16,6 +16,7 @@ import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobsRouteImport } from './routes/jobs'
@@ -63,6 +64,11 @@ const ProfileRoute = ProfileRouteImport.update({
 const PipelineRoute = PipelineRouteImport.update({
   id: '/pipeline',
   path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackagesRoute = PackagesRouteImport.update({
+  id: '/packages',
+  path: '/packages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OutreachRoute = OutreachRouteImport.update({
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
+  '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
+  '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/jobs': typeof JobsRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
+  '/packages': typeof PackagesRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
   '/recruiters': typeof RecruitersRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/login'
     | '/outreach'
+    | '/packages'
     | '/pipeline'
     | '/profile'
     | '/recruiters'
@@ -235,6 +245,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/login'
     | '/outreach'
+    | '/packages'
     | '/pipeline'
     | '/profile'
     | '/recruiters'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/login'
     | '/outreach'
+    | '/packages'
     | '/pipeline'
     | '/profile'
     | '/recruiters'
@@ -280,6 +292,7 @@ export interface RootRouteChildren {
   JobsRoute: typeof JobsRoute
   LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
+  PackagesRoute: typeof PackagesRoute
   PipelineRoute: typeof PipelineRoute
   ProfileRoute: typeof ProfileRoute
   RecruitersRoute: typeof RecruitersRoute
@@ -339,6 +352,13 @@ declare module '@tanstack/react-router' {
       path: '/pipeline'
       fullPath: '/pipeline'
       preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packages': {
+      id: '/packages'
+      path: '/packages'
+      fullPath: '/packages'
+      preLoaderRoute: typeof PackagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/outreach': {
@@ -448,6 +468,7 @@ const rootRouteChildren: RootRouteChildren = {
   JobsRoute: JobsRoute,
   LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
+  PackagesRoute: PackagesRoute,
   PipelineRoute: PipelineRoute,
   ProfileRoute: ProfileRoute,
   RecruitersRoute: RecruitersRoute,
@@ -460,3 +481,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
