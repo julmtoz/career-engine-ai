@@ -340,6 +340,72 @@ export type Database = {
         }
         Relationships: []
       }
+      career_profiles: {
+        Row: {
+          career_goals: string | null
+          certifications: string[]
+          communication_tone: string
+          created_at: string
+          deal_breakers: string | null
+          id: string
+          preferred_industries: string[]
+          preferred_locations: string[]
+          resume_baseline: string | null
+          salary_target_max: number | null
+          salary_target_min: number | null
+          seniority: string | null
+          skills: string[]
+          target_titles: string[]
+          updated_at: string
+          user_id: string
+          work_authorization: string | null
+          work_mode: string[]
+          years_experience: number | null
+        }
+        Insert: {
+          career_goals?: string | null
+          certifications?: string[]
+          communication_tone?: string
+          created_at?: string
+          deal_breakers?: string | null
+          id?: string
+          preferred_industries?: string[]
+          preferred_locations?: string[]
+          resume_baseline?: string | null
+          salary_target_max?: number | null
+          salary_target_min?: number | null
+          seniority?: string | null
+          skills?: string[]
+          target_titles?: string[]
+          updated_at?: string
+          user_id: string
+          work_authorization?: string | null
+          work_mode?: string[]
+          years_experience?: number | null
+        }
+        Update: {
+          career_goals?: string | null
+          certifications?: string[]
+          communication_tone?: string
+          created_at?: string
+          deal_breakers?: string | null
+          id?: string
+          preferred_industries?: string[]
+          preferred_locations?: string[]
+          resume_baseline?: string | null
+          salary_target_max?: number | null
+          salary_target_min?: number | null
+          seniority?: string | null
+          skills?: string[]
+          target_titles?: string[]
+          updated_at?: string
+          user_id?: string
+          work_authorization?: string | null
+          work_mode?: string[]
+          years_experience?: number | null
+        }
+        Relationships: []
+      }
       cover_letters: {
         Row: {
           agent_run_id: string | null
@@ -500,6 +566,7 @@ export type Database = {
       }
       job_opportunities: {
         Row: {
+          apply_url: string | null
           ats_score: number | null
           company: string
           description: string | null
@@ -507,14 +574,20 @@ export type Database = {
           embedding: string | null
           external_id: string | null
           id: string
+          intake_kind: string | null
           interview_probability: number | null
           location: string | null
           match_score: number | null
+          meta: Json | null
           posted_at: string | null
+          raw_input: string | null
           reasoning: string | null
           remote: string | null
+          requirements: string[] | null
+          responsibilities: string[] | null
           salary_max: number | null
           salary_min: number | null
+          seniority: string | null
           source: string | null
           tags: string[] | null
           title: string
@@ -522,6 +595,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          apply_url?: string | null
           ats_score?: number | null
           company: string
           description?: string | null
@@ -529,14 +603,20 @@ export type Database = {
           embedding?: string | null
           external_id?: string | null
           id?: string
+          intake_kind?: string | null
           interview_probability?: number | null
           location?: string | null
           match_score?: number | null
+          meta?: Json | null
           posted_at?: string | null
+          raw_input?: string | null
           reasoning?: string | null
           remote?: string | null
+          requirements?: string[] | null
+          responsibilities?: string[] | null
           salary_max?: number | null
           salary_min?: number | null
+          seniority?: string | null
           source?: string | null
           tags?: string[] | null
           title: string
@@ -544,6 +624,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          apply_url?: string | null
           ats_score?: number | null
           company?: string
           description?: string | null
@@ -551,14 +632,20 @@ export type Database = {
           embedding?: string | null
           external_id?: string | null
           id?: string
+          intake_kind?: string | null
           interview_probability?: number | null
           location?: string | null
           match_score?: number | null
+          meta?: Json | null
           posted_at?: string | null
+          raw_input?: string | null
           reasoning?: string | null
           remote?: string | null
+          requirements?: string[] | null
+          responsibilities?: string[] | null
           salary_max?: number | null
           salary_min?: number | null
+          seniority?: string | null
           source?: string | null
           tags?: string[] | null
           title?: string
@@ -705,6 +792,57 @@ export type Database = {
           },
         ]
       }
+      pending_actions: {
+        Row: {
+          agent_kind: string | null
+          confidence: number | null
+          created_at: string
+          decided_at: string | null
+          decision_note: string | null
+          id: string
+          kind: string
+          payload: Json
+          status: string
+          subject_id: string | null
+          subject_type: string | null
+          summary: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          agent_kind?: string | null
+          confidence?: number | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          id?: string
+          kind: string
+          payload?: Json
+          status?: string
+          subject_id?: string | null
+          subject_type?: string | null
+          summary?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          agent_kind?: string | null
+          confidence?: number | null
+          created_at?: string
+          decided_at?: string | null
+          decision_note?: string | null
+          id?: string
+          kind?: string
+          payload?: Json
+          status?: string
+          subject_id?: string | null
+          subject_type?: string | null
+          summary?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -779,46 +917,70 @@ export type Database = {
       }
       resume_versions: {
         Row: {
+          achievements: Json | null
           agent_run_id: string | null
           ats_score: number | null
           content: Json
           created_at: string
+          detected_titles: string[] | null
           id: string
           is_base: boolean
           job_id: string | null
           keyword_density: Json | null
           label: string
           parent_id: string | null
+          parsed_text: string | null
           rendered_md: string | null
+          seniority: string | null
+          skills: string[] | null
+          source_filename: string | null
+          storage_path: string | null
           user_id: string
+          years_experience: number | null
         }
         Insert: {
+          achievements?: Json | null
           agent_run_id?: string | null
           ats_score?: number | null
           content: Json
           created_at?: string
+          detected_titles?: string[] | null
           id?: string
           is_base?: boolean
           job_id?: string | null
           keyword_density?: Json | null
           label: string
           parent_id?: string | null
+          parsed_text?: string | null
           rendered_md?: string | null
+          seniority?: string | null
+          skills?: string[] | null
+          source_filename?: string | null
+          storage_path?: string | null
           user_id: string
+          years_experience?: number | null
         }
         Update: {
+          achievements?: Json | null
           agent_run_id?: string | null
           ats_score?: number | null
           content?: Json
           created_at?: string
+          detected_titles?: string[] | null
           id?: string
           is_base?: boolean
           job_id?: string | null
           keyword_density?: Json | null
           label?: string
           parent_id?: string | null
+          parsed_text?: string | null
           rendered_md?: string | null
+          seniority?: string | null
+          skills?: string[] | null
+          source_filename?: string | null
+          storage_path?: string | null
           user_id?: string
+          years_experience?: number | null
         }
         Relationships: [
           {
