@@ -63,8 +63,8 @@ function Authed() {
               </>
             )} />
 
-            {o?.resume_strategy && <Card title="Resume strategy">{String(o.resume_strategy)}</Card>}
-            {o?.timing && <Card title="Timing">{String(o.timing)}</Card>}
+            {typeof o?.resume_strategy === "string" && <Card title="Resume strategy">{o.resume_strategy}</Card>}
+            {typeof o?.timing === "string" && <Card title="Timing">{o.timing}</Card>}
             {Array.isArray(o?.risks) && (o!.risks as unknown[]).length > 0 && (
               <Card title="Risks">
                 <ul className="list-disc pl-5 space-y-1">
