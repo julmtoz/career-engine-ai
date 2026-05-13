@@ -52,6 +52,7 @@ function Authed({ userId }: { userId: string }) {
     mutationFn: async (file: File) => {
       setError(null);
       setProgress("Reading file…");
+      const { extractResumeText } = await import("@/lib/resume-extract.client");
       const text = await extractResumeText(file);
       if (text.length < 50) throw new Error("Could not extract enough text from this file.");
       setProgress("Uploading to vault…");
