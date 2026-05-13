@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/app-shell";
 import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
-import { extractResumeText } from "@/lib/resume-extract.client";
+
 import {
   ingestResume,
   listResumes,
@@ -52,6 +52,7 @@ function Authed({ userId }: { userId: string }) {
     mutationFn: async (file: File) => {
       setError(null);
       setProgress("Reading file…");
+      const { extractResumeText } = await import("@/lib/resume-extract.client");
       const text = await extractResumeText(file);
       if (text.length < 50) throw new Error("Could not extract enough text from this file.");
       setProgress("Uploading to vault…");
