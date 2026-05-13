@@ -60,7 +60,7 @@ function sectionFor(pathname: string): keyof typeof SUB_NAV | null {
   if (["/feed", "/companies", "/recruiters", "/sources", "/intake"].some((p) => pathname.startsWith(p))) return "opportunities";
   if (["/pipeline", "/packages", "/approvals", "/follow-ups", "/conversion"].some((p) => pathname.startsWith(p))) return "pipeline";
   if (["/prep", "/strategist", "/copilot"].some((p) => pathname.startsWith(p))) return "interviews";
-  if (["/profile", "/resume", "/resumes", "/automation", "/observability"].some((p) => pathname.startsWith(p))) return "profile";
+  if (["/profile", "/resumes", "/automation", "/observability"].some((p) => pathname.startsWith(p))) return "profile";
   return null;
 }
 
