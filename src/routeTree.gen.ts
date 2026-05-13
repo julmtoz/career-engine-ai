@@ -26,6 +26,7 @@ import { Route as FollowUpsRouteImport } from './routes/follow-ups'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as ConversionRouteImport } from './routes/conversion'
 import { Route as CompaniesRouteImport } from './routes/companies'
 import { Route as AutomationRouteImport } from './routes/automation'
 import { Route as ApprovalsRouteImport } from './routes/approvals'
@@ -118,6 +119,11 @@ const CopilotRoute = CopilotRouteImport.update({
   path: '/copilot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConversionRoute = ConversionRouteImport.update({
+  id: '/conversion',
+  path: '/conversion',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompaniesRoute = CompaniesRouteImport.update({
   id: '/companies',
   path: '/companies',
@@ -155,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
   '/companies': typeof CompaniesRoute
+  '/conversion': typeof ConversionRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
   '/companies': typeof CompaniesRoute
+  '/conversion': typeof ConversionRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
   '/companies': typeof CompaniesRoute
+  '/conversion': typeof ConversionRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
@@ -233,6 +242,7 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/automation'
     | '/companies'
+    | '/conversion'
     | '/copilot'
     | '/dashboard'
     | '/feed'
@@ -258,6 +268,7 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/automation'
     | '/companies'
+    | '/conversion'
     | '/copilot'
     | '/dashboard'
     | '/feed'
@@ -283,6 +294,7 @@ export interface FileRouteTypes {
     | '/approvals'
     | '/automation'
     | '/companies'
+    | '/conversion'
     | '/copilot'
     | '/dashboard'
     | '/feed'
@@ -309,6 +321,7 @@ export interface RootRouteChildren {
   ApprovalsRoute: typeof ApprovalsRoute
   AutomationRoute: typeof AutomationRoute
   CompaniesRoute: typeof CompaniesRoute
+  ConversionRoute: typeof ConversionRoute
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
   FeedRoute: typeof FeedRoute
@@ -450,6 +463,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CopilotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conversion': {
+      id: '/conversion'
+      path: '/conversion'
+      fullPath: '/conversion'
+      preLoaderRoute: typeof ConversionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/companies': {
       id: '/companies'
       path: '/companies'
@@ -501,6 +521,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApprovalsRoute: ApprovalsRoute,
   AutomationRoute: AutomationRoute,
   CompaniesRoute: CompaniesRoute,
+  ConversionRoute: ConversionRoute,
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
   FeedRoute: FeedRoute,
