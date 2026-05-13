@@ -664,6 +664,57 @@ export type Database = {
         }
         Relationships: []
       }
+      feedback: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          meta: Json
+          rating: number | null
+          route: string | null
+          severity: string
+          status: string
+          subject_id: string | null
+          subject_type: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          meta?: Json
+          rating?: number | null
+          route?: string | null
+          severity?: string
+          status?: string
+          subject_id?: string | null
+          subject_type?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          meta?: Json
+          rating?: number | null
+          route?: string | null
+          severity?: string
+          status?: string
+          subject_id?: string | null
+          subject_type?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       follow_ups: {
         Row: {
           agent_run_id: string | null
