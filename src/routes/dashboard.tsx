@@ -6,6 +6,7 @@ import { AgentStream } from "@/components/agent-stream";
 import { JobCard } from "@/components/job-card";
 import { MatchRing } from "@/components/match-ring";
 import { getActivation } from "@/lib/activation.functions";
+import { MissionControl } from "@/components/mission-control";
 import {
   agentFleet,
   dashboardMetrics,
