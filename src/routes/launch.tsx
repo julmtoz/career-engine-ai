@@ -78,33 +78,30 @@ function Authed() {
           </div>
         </div>
 
-        <ul className="mt-8 space-y-2">
-          {(data?.checks ?? []).map((c) => {
-            const next = !c.ok ? NEXT_STEPS[c.id] : undefined;
-            return (
-              <li
-                key={c.id}
-                className="flex items-start gap-3 rounded-lg border border-border bg-card px-4 py-3"
-              >
-                <span
-                  className={`mt-1 size-2 rounded-full ${c.ok ? "bg-success" : "bg-warning animate-pulse-soft"}`}
-                />
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-foreground">{c.label}</div>
-                  <div className="text-[11px] text-muted mt-0.5">{c.detail}</div>
-                </div>
-                {next && (
-                  <Link
-                    to={next.to}
-                    className="text-[11px] font-mono uppercase tracking-wider text-foreground hover:text-accent"
-                  >
-                    {next.label} →
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        <div className="mt-10 grid sm:grid-cols-2 gap-3">
+          <Section title="Ready" tone="success">
+            {(data?.checks ?? []).filter((c) => c.ok).map((c) => (
+              <CheckRow key={c.id} c={c} />
+            ))}
+            {data && data.checks.filter((c) => c.ok).length === 0 && (
+              <div className="text-[11px] text-muted">Nothing yet.</div>
+            )}
+          </Section>
+          <Section title="Needs configuration" tone="warning">
+            {(data?.checks ?? []).filter((c) => !c.ok).map((c) => (
+              <CheckRow key={c.id} c={c} next={NEXT_STEPS[c.id]} />
+            ))}
+            {data && data.checks.every((c) => c.ok) && (
+              <div className="text-[11px] text-muted">All clear — you're production-ready.</div>
+            )}
+          </Section>
+        </div>
+
+        <div className="mt-8 grid sm:grid-cols-3 gap-3 text-xs">
+          <Badge label="Live integrations" value="Greenhouse · Lever" tone="success" />
+          <Badge label="Manual intake" value="URL · Paste · Workday · Ashby" tone="muted" />
+          <Badge label="Demo-only" value="Email / LinkedIn send-out" tone="warning" />
+        </div>
 
         <div className="mt-10 rounded-lg border border-border bg-card p-5 text-xs text-muted">
           <div className="font-mono uppercase tracking-wider text-foreground text-[10px] mb-2">
