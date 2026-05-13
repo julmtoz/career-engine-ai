@@ -5,14 +5,17 @@ import { useAuth } from "@/lib/auth-context";
 const NAV = [
   { to: "/dashboard", label: "Fleet" },
   { to: "/automation", label: "Automation" },
+  { to: "/sources", label: "Sources" },
+  { to: "/feed", label: "Feed" },
   { to: "/intake", label: "Intake" },
-  { to: "/jobs", label: "Opportunities" },
+  { to: "/companies", label: "Companies" },
+  { to: "/recruiters", label: "Recruiters" },
+  { to: "/strategist", label: "Strategist" },
   { to: "/pipeline", label: "Pipeline" },
   { to: "/approvals", label: "Approvals" },
   { to: "/resumes", label: "Vault" },
+  { to: "/analytics", label: "Analytics" },
   { to: "/profile", label: "Profile" },
-  { to: "/copilot", label: "Copilot" },
-  { to: "/outreach", label: "Outreach" },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
