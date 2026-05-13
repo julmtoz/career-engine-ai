@@ -97,28 +97,34 @@ function Dashboard() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <ActivationBanner />
         {/* Header */}
-        <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+        <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
           <div>
-            <p className="text-[10px] font-mono uppercase tracking-widest text-accent mb-2">
-              Command center
+            <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent mb-2">
+              ─ Command center · live
             </p>
-            <h1 className="font-display text-4xl md:text-5xl tracking-tight font-extrabold">
-              Good evening, <span className="font-serif italic font-bold">Alex.</span>
+            <h1 className="font-display text-3xl md:text-4xl tracking-[-0.02em] font-extrabold">
+              Good evening, <span className="font-serif italic font-bold text-accent">Alex.</span>
             </h1>
-            <p className="text-muted mt-2">
-              Your fleet ran 1,402 operations today. 4 interviews on the runway.
+            <p className="text-muted text-sm mt-1.5">
+              Fleet ran <span className="text-foreground font-mono">1,402</span> ops today ·
+              <span className="text-signal"> 4 interviews</span> on the runway.
             </p>
           </div>
           <Link
             to="/jobs"
-            className="px-4 py-2 bg-foreground text-background text-sm font-semibold rounded-md"
+            className="px-4 py-2 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-widest rounded-md glow-accent"
           >
-            Re-rank feed
+            Re-rank feed →
           </Link>
         </div>
 
+        {/* Mission control viz */}
+        <div className="mb-6">
+          <MissionControl compact />
+        </div>
+
         {/* Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden mb-8">
           <MetricCard label="Discovery velocity" value={m.jobsScanned.value.toLocaleString()} delta={m.jobsScanned.delta} />
           <MetricCard label="Match accuracy" value={m.matchAccuracy.value} delta={m.matchAccuracy.delta} />
           <MetricCard label="Outreach flow" value={m.outreachActive.value} delta={m.outreachActive.delta} />
