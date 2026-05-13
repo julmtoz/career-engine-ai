@@ -9,8 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as OutreachRouteImport } from './routes/outreach'
+import { Route as JobsRouteImport } from './routes/jobs'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ResumeRoute = ResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineRoute = PipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OutreachRoute = OutreachRouteImport.update({
+  id: '/outreach',
+  path: '/outreach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JobsRoute = JobsRouteImport.update({
+  id: '/jobs',
+  path: '/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CopilotRoute = CopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +55,116 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/dashboard': typeof DashboardRoute
+  '/jobs': typeof JobsRoute
+  '/outreach': typeof OutreachRoute
+  '/pipeline': typeof PipelineRoute
+  '/resume': typeof ResumeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/dashboard': typeof DashboardRoute
+  '/jobs': typeof JobsRoute
+  '/outreach': typeof OutreachRoute
+  '/pipeline': typeof PipelineRoute
+  '/resume': typeof ResumeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/dashboard': typeof DashboardRoute
+  '/jobs': typeof JobsRoute
+  '/outreach': typeof OutreachRoute
+  '/pipeline': typeof PipelineRoute
+  '/resume': typeof ResumeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/copilot'
+    | '/dashboard'
+    | '/jobs'
+    | '/outreach'
+    | '/pipeline'
+    | '/resume'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/copilot'
+    | '/dashboard'
+    | '/jobs'
+    | '/outreach'
+    | '/pipeline'
+    | '/resume'
+  id:
+    | '__root__'
+    | '/'
+    | '/copilot'
+    | '/dashboard'
+    | '/jobs'
+    | '/outreach'
+    | '/pipeline'
+    | '/resume'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CopilotRoute: typeof CopilotRoute
+  DashboardRoute: typeof DashboardRoute
+  JobsRoute: typeof JobsRoute
+  OutreachRoute: typeof OutreachRoute
+  PipelineRoute: typeof PipelineRoute
+  ResumeRoute: typeof ResumeRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/resume': {
+      id: '/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline': {
+      id: '/pipeline'
+      path: '/pipeline'
+      fullPath: '/pipeline'
+      preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/outreach': {
+      id: '/outreach'
+      path: '/outreach'
+      fullPath: '/outreach'
+      preLoaderRoute: typeof OutreachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jobs': {
+      id: '/jobs'
+      path: '/jobs'
+      fullPath: '/jobs'
+      preLoaderRoute: typeof JobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/copilot': {
+      id: '/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +177,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CopilotRoute: CopilotRoute,
+  DashboardRoute: DashboardRoute,
+  JobsRoute: JobsRoute,
+  OutreachRoute: OutreachRoute,
+  PipelineRoute: PipelineRoute,
+  ResumeRoute: ResumeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
