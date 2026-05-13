@@ -6,8 +6,8 @@
 
 @theme inline {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter Display", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", "Iowan Old Style", "Apple Garamond", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -44,43 +44,41 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Mission-control palette: deep cobalt void, phosphor-cyan signal,
-   amber warning, electric green for live states. */
+/* Calm consumer-AI palette: warm-white canvas, near-black ink, confident indigo accent. */
 :root {
-  --radius: 0.625rem;
+  --radius: 0.75rem;
 
-  --background: hsl(222 30% 5%);
-  --foreground: hsl(210 30% 96%);
-  --surface: hsl(222 28% 7%);
-  --elevated: hsl(222 26% 9%);
+  --background: hsl(40 20% 98.5%);
+  --foreground: hsl(220 15% 9%);
+  --surface: hsl(40 20% 98.5%);
+  --elevated: hsl(0 0% 100%);
 
-  --card: hsl(222 26% 8%);
-  --card-foreground: hsl(210 30% 96%);
-  --popover: hsl(222 28% 9%);
-  --popover-foreground: hsl(210 30% 96%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(220 15% 9%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(220 15% 9%);
 
-  --primary: hsl(210 30% 96%);
-  --primary-foreground: hsl(222 30% 5%);
-  --secondary: hsl(222 22% 13%);
-  --secondary-foreground: hsl(210 30% 96%);
+  --primary: hsl(220 15% 9%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(40 14% 95%);
+  --secondary-foreground: hsl(220 15% 9%);
 
-  --muted: hsl(218 12% 55%);
-  --muted-foreground: hsl(218 12% 60%);
+  --muted: hsl(220 9% 46%);
+  --muted-foreground: hsl(220 9% 46%);
 
-  /* Phosphor cyan — the signature signal color */
-  --accent: hsl(186 100% 56%);
-  --accent-foreground: hsl(222 30% 5%);
+  /* Confident indigo — premium, calm, trustworthy */
+  --accent: hsl(243 75% 59%);
+  --accent-foreground: hsl(0 0% 100%);
 
-  /* Secondary signal — electric mint, for live/success states */
-  --signal: hsl(152 90% 55%);
-  --success: hsl(152 90% 55%);
-  --warning: hsl(38 100% 60%);
-  --destructive: hsl(0 85% 62%);
+  --signal: hsl(160 70% 38%);
+  --success: hsl(160 70% 38%);
+  --warning: hsl(35 92% 50%);
+  --destructive: hsl(0 72% 51%);
   --destructive-foreground: hsl(0 0% 100%);
 
-  --border: hsl(210 30% 96% / 0.08);
-  --input: hsl(210 30% 96% / 0.12);
-  --ring: hsl(186 100% 56%);
+  --border: hsl(220 13% 91%);
+  --input: hsl(220 13% 91%);
+  --ring: hsl(243 75% 59% / 0.4);
 }
 
 @layer base {
@@ -89,134 +87,75 @@
   }
   html {
     font-family: var(--font-sans);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01", "ss03";
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
     background-color: var(--color-background);
+    color: var(--color-foreground);
   }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     -webkit-font-smoothing: antialiased;
-    background-image:
-      radial-gradient(ellipse 80% 60% at 50% -10%, hsl(186 100% 56% / 0.06), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 100%, hsl(220 100% 60% / 0.05), transparent 60%);
-    background-attachment: fixed;
+    text-rendering: optimizeLegibility;
   }
   ::selection {
-    background-color: hsl(186 100% 56% / 0.25);
-    color: hsl(210 30% 96%);
+    background-color: hsl(243 75% 59% / 0.18);
+    color: var(--color-foreground);
   }
 }
 
-/* ─── Animations ──────────────────────────────────────────────────────── */
+/* ─── Subtle motion ─────────────────────────────────────────────────── */
 @keyframes float-up {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
-}
-@keyframes stream-scroll {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
-}
-@keyframes ticker-x {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
 }
 @keyframes pulse-soft {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 hsl(186 100% 56% / 0.6); }
-  70% { box-shadow: 0 0 0 8px hsl(186 100% 56% / 0); }
-  100% { box-shadow: 0 0 0 0 hsl(186 100% 56% / 0); }
-}
-@keyframes scan {
-  0% { transform: translateY(-100%); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(100%); opacity: 0; }
+  50% { opacity: 0.55; }
 }
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
-@keyframes flow {
-  0% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -32; }
-}
-@keyframes orbit {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
 
-.animate-float { animation: float-up 0.8s var(--ease-out-expo) both; }
-.animate-stream { animation: stream-scroll 50s linear infinite; }
-.animate-ticker { animation: ticker-x 40s linear infinite; }
+.animate-float { animation: float-up 0.6s var(--ease-out-expo) both; }
 .animate-pulse-soft { animation: pulse-soft 2.4s ease-in-out infinite; }
-.animate-pulse-ring { animation: pulse-ring 2s ease-out infinite; }
-.animate-scan { animation: scan 3s linear infinite; }
-.animate-flow { stroke-dasharray: 4 4; animation: flow 1s linear infinite; }
-.animate-orbit { animation: orbit 20s linear infinite; }
 
-/* ─── Mission-control surfaces ────────────────────────────────────────── */
-.grid-bg {
-  background-image:
-    linear-gradient(to right, hsl(210 30% 96% / 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, hsl(210 30% 96% / 0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
+/* Legacy classnames kept as no-ops so existing routes don't break visually-hard.
+   They render as plain surfaces instead of cyberpunk effects. */
+.animate-stream,
+.animate-ticker,
+.animate-pulse-ring,
+.animate-scan,
+.animate-flow,
+.animate-orbit { animation: none; }
 
-.signal-grid {
-  background-image:
-    linear-gradient(to right, hsl(186 100% 56% / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, hsl(186 100% 56% / 0.06) 1px, transparent 1px),
-    linear-gradient(to right, hsl(186 100% 56% / 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, hsl(186 100% 56% / 0.025) 1px, transparent 1px);
-  background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
-}
+.grid-bg,
+.signal-grid,
+.scanlines,
+.noise { background-image: none; }
 
-.scanlines::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 3px,
-    hsl(210 30% 96% / 0.018) 3px,
-    hsl(210 30% 96% / 0.018) 4px
-  );
-  mix-blend-mode: screen;
-}
-
-.glow-accent { box-shadow: 0 0 24px -4px hsl(186 100% 56% / 0.45), inset 0 0 0 1px hsl(186 100% 56% / 0.25); }
-.glow-signal { box-shadow: 0 0 20px -2px hsl(152 90% 55% / 0.4); }
-.text-glow { text-shadow: 0 0 12px hsl(186 100% 56% / 0.6); }
+.glow-accent { box-shadow: 0 1px 2px hsl(220 15% 9% / 0.04), 0 8px 24px -12px hsl(243 75% 59% / 0.25); }
+.glow-signal { box-shadow: none; }
+.text-glow { text-shadow: none; }
 
 .surface {
-  background:
-    linear-gradient(180deg, hsl(222 26% 9% / 0.95), hsl(222 28% 7% / 0.95));
-  border: 1px solid hsl(210 30% 96% / 0.06);
-  box-shadow:
-    inset 0 1px 0 hsl(210 30% 96% / 0.04),
-    0 1px 0 hsl(0 0% 0% / 0.4);
-  backdrop-filter: blur(10px);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px hsl(220 15% 9% / 0.03);
 }
 
 .surface-raised {
-  background:
-    linear-gradient(180deg, hsl(222 24% 11%), hsl(222 26% 8%));
-  border: 1px solid hsl(210 30% 96% / 0.08);
-  box-shadow:
-    inset 0 1px 0 hsl(210 30% 96% / 0.06),
-    0 8px 24px -12px hsl(0 0% 0% / 0.6);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px hsl(220 15% 9% / 0.04), 0 12px 32px -16px hsl(220 15% 9% / 0.12);
+}
+
+.surface-soft {
+  background: var(--color-secondary);
+  border: 1px solid var(--color-border);
 }
 
 .hairline {
-  background-image: linear-gradient(90deg, transparent, hsl(210 30% 96% / 0.12), transparent);
+  background-image: linear-gradient(90deg, transparent, var(--color-border), transparent);
   height: 1px;
-}
-
-.noise {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
