@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AgentStream } from "@/components/agent-stream";
-import { fleetStats, jobs } from "@/lib/mock-data";
-import { JobCard } from "@/components/job-card";
+import { MissionControl } from "@/components/mission-control";
+import { fleetStats } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
   component: Landing,
