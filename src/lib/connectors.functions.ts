@@ -235,10 +235,10 @@ export const liveOpportunityFeed = createServerFn({ method: "GET" })
     const { data: jobs } = await supabase
       .from("job_opportunities")
       .select(
-        "id,title,company,location,remote,posted_at,match_score,ats_score,interview_probability,reasoning,tags,url,apply_url,freshness_score,recruiter_active,source,source_confidence,company_id,created_at",
+        "id,title,company,location,remote,posted_at,match_score,ats_score,interview_probability,reasoning,tags,url,apply_url,freshness_score,recruiter_active,source,source_confidence,company_id,discovered_at",
       )
       .eq("user_id", userId)
-      .order("created_at", { ascending: false })
+      .order("discovered_at", { ascending: false })
       .limit(120);
 
     const { data: companies } = await supabase
