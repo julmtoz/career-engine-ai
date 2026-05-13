@@ -520,13 +520,10 @@ export const setAutonomy = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context as { supabase: DB; userId: string };
-    const patch: Record<string, unknown> = {};
+    const patch: Database["public"]["Tables"]["user_preferences"]["Update"] = {};
     if (data.autonomy) patch.autonomy = data.autonomy;
     if (typeof data.minConfidence === "number") patch.min_confidence_to_act = data.minConfidence;
-    await supabase
-      .from("user_preferences")
-      .update(patch)
-      .eq("user_id", userId);
+    await supabase.from("user_preferences").update(patch).eq("user_id", userId);
     return { ok: true };
   });
 
