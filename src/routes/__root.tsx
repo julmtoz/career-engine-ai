@@ -73,13 +73,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Aether OS — Your AI Career Agent" },
+      { title: "mazzacy OS — Your AI Career Agent" },
       {
         name: "description",
         content:
           "Aether OS is an autonomous AI career operating system. A workforce of specialized agents that discover, tailor, apply and engage opportunities while you sleep.",
       },
-      { property: "og:title", content: "Aether OS — Your AI Career Agent" },
+      { property: "og:title", content: "mazzacy OS — Your AI Career Agent" },
       {
         property: "og:description",
         content:
@@ -87,6 +87,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "mazzacy OS — Your AI Career Agent" },
+      { name: "description", content: "AI Career Acquisition OS is an autonomous AI platform that discovers, optimizes, and applies for jobs." },
+      { property: "og:description", content: "AI Career Acquisition OS is an autonomous AI platform that discovers, optimizes, and applies for jobs." },
+      { name: "twitter:description", content: "AI Career Acquisition OS is an autonomous AI platform that discovers, optimizes, and applies for jobs." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0604287a-188a-4502-97e3-a926d201e2aa/id-preview-f92f6bd6--260cbba9-e9f0-4d42-a047-2d92d22affed.lovable.app-1778690907851.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0604287a-188a-4502-97e3-a926d201e2aa/id-preview-f92f6bd6--260cbba9-e9f0-4d42-a047-2d92d22affed.lovable.app-1778690907851.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
