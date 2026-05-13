@@ -162,7 +162,7 @@ async function importJobs(
           intake_kind: "connector",
           freshness_score: freshness(j.postedAt),
           source_confidence: sourceKind === "greenhouse" || sourceKind === "lever" ? 0.95 : 0.7,
-          meta: j.meta ?? {},
+          meta: (j.meta ?? {}) as never,
         },
         { onConflict: "user_id,job_source_id,external_id", ignoreDuplicates: false },
       );
