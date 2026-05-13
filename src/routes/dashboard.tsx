@@ -64,28 +64,16 @@ function MetricCard({
   highlight?: boolean;
 }) {
   return (
-    <div
-      className={`p-5 rounded-2xl border ${
-        highlight
-          ? "border-accent/20 bg-accent/5"
-          : "border-border bg-card"
-      }`}
-    >
-      <p className="text-[10px] font-mono uppercase tracking-widest text-muted mb-2">{label}</p>
+    <div className={`relative p-4 surface ${highlight ? "bg-elevated" : ""}`}>
+      {highlight && <span className="absolute top-2 right-2 size-1.5 rounded-full bg-signal animate-pulse-soft" />}
+      <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-muted mb-2">{label}</p>
       <div className="flex items-end gap-2">
-        <span className="font-display text-3xl font-extrabold tracking-tight">{value}</span>
-        <span
-          className={`text-xs font-mono mb-1 ${
-            highlight ? "text-accent" : "text-success"
-          }`}
-        >
-          {delta}
-        </span>
+        <span className={`font-display text-2xl font-extrabold tracking-tight ${highlight ? "text-accent text-glow" : ""}`}>{value}</span>
+        <span className={`text-[10px] font-mono mb-1 ${highlight ? "text-accent" : "text-signal"}`}>{delta}</span>
       </div>
     </div>
   );
 }
-
 function Dashboard() {
   const m = dashboardMetrics;
   const counts = pipelineStages.map((s) => ({
