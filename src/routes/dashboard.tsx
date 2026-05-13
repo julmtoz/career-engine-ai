@@ -1,14 +1,45 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/app-shell";
 import { AgentStream } from "@/components/agent-stream";
 import { JobCard } from "@/components/job-card";
 import { MatchRing } from "@/components/match-ring";
+import { getActivation } from "@/lib/activation.functions";
 import {
   agentFleet,
   dashboardMetrics,
   jobs,
   pipelineStages,
 } from "@/lib/mock-data";
+
+function ActivationBanner() {
+  const _get = useServerFn(getActivation);
+  const q = useQuery({ queryKey: ["activation"], queryFn: () => _get(), refetchInterval: 15000 });
+  const d = q.data;
+  if (!d || d.score === 100) return null;
+  return (
+    <Link
+      to="/onboarding"
+      className="block mb-6 rounded-2xl border border-accent/30 bg-accent/5 p-5 hover:bg-accent/10 transition"
+    >
+      <div className="flex items-center justify-between gap-4 flex-wrap">
+        <div className="min-w-0">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-accent mb-1">Activation · {d.completed}/{d.total}</p>
+          <p className="font-medium">
+            {d.next ? <>Next up: <span className="font-serif italic">{d.next.label}</span> — {d.next.description}</> : "Almost there."}
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="w-32 h-1.5 bg-foreground/10 rounded-full overflow-hidden">
+            <div className="h-full bg-accent" style={{ width: `${d.score}%` }} />
+          </div>
+          <span className="text-xs px-3 py-1.5 bg-foreground text-background rounded-md font-medium">Continue →</span>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export const Route = createFileRoute("/dashboard")({
   component: Dashboard,
