@@ -60,6 +60,6 @@ export const getStrategistRecommendations = createServerFn({ method: "POST" })
     return {
       reasoning: result.reasoning,
       confidence: result.confidence,
-      output: JSON.parse(JSON.stringify(result.output)) as Record<string, unknown>,
+      output: JSON.parse(JSON.stringify(result.output)) as Record<string, never>,
     };
   });
