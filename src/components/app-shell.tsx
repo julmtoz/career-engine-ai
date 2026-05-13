@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth-context";
 
 const NAV = [
+  { to: "/onboarding", label: "Start" },
   { to: "/dashboard", label: "Fleet" },
   { to: "/automation", label: "Automation" },
   { to: "/sources", label: "Sources" },
