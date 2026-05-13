@@ -3,31 +3,79 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 
-const NAV = [
-  { to: "/dashboard", label: "Today" },
+type NavItem = { to: string; label: string };
+
+const PRIMARY: NavItem[] = [
+  { to: "/dashboard", label: "Home" },
   { to: "/feed", label: "Opportunities" },
   { to: "/pipeline", label: "Pipeline" },
-  { to: "/prep", label: "Prepare" },
-  { to: "/analytics", label: "Insights" },
-] as const;
-
-const MORE = [
+  { to: "/prep", label: "Interviews" },
   { to: "/profile", label: "Profile" },
-  { to: "/automation", label: "Automation" },
-  { to: "/sources", label: "Sources" },
-  { to: "/companies", label: "Companies" },
-  { to: "/recruiters", label: "Recruiters" },
-  { to: "/resumes", label: "Resume vault" },
-  { to: "/strategist", label: "Strategy" },
-  { to: "/copilot", label: "Copilot" },
-  { to: "/approvals", label: "Approvals" },
-  { to: "/follow-ups", label: "Follow-ups" },
-  { to: "/outreach", label: "Outreach" },
-  { to: "/conversion", label: "Conversion" },
-  { to: "/packages", label: "Packages" },
-  { to: "/intake", label: "Intake" },
-  { to: "/observability", label: "Activity" },
-  { to: "/feedback", label: "Feedback" },
+];
+
+// Contextual sub-tabs per section. Each merged area shows a calm tab bar
+// under the main nav so related workspaces feel like one continuous surface
+// instead of separate top-level destinations.
+const SUB_NAV: Record<string, { label: string; tabs: NavItem[] }> = {
+  opportunities: {
+    label: "Opportunities",
+    tabs: [
+      { to: "/feed", label: "Feed" },
+      { to: "/companies", label: "Companies" },
+      { to: "/recruiters", label: "Recruiters" },
+      { to: "/sources", label: "Sources" },
+      { to: "/intake", label: "Intake" },
+    ],
+  },
+  pipeline: {
+    label: "Pipeline",
+    tabs: [
+      { to: "/pipeline", label: "Active" },
+      { to: "/packages", label: "Packages" },
+      { to: "/approvals", label: "Approvals" },
+      { to: "/follow-ups", label: "Follow-ups" },
+      { to: "/conversion", label: "Conversion" },
+    ],
+  },
+  interviews: {
+    label: "Interviews",
+    tabs: [
+      { to: "/prep", label: "Prep" },
+      { to: "/strategist", label: "Strategy" },
+      { to: "/copilot", label: "Copilot" },
+    ],
+  },
+  profile: {
+    label: "Profile",
+    tabs: [
+      { to: "/profile", label: "Profile" },
+      { to: "/resume", label: "Resume" },
+      { to: "/resumes", label: "Vault" },
+      { to: "/automation", label: "Automation" },
+      { to: "/observability", label: "Activity" },
+    ],
+  },
+};
+
+function sectionFor(pathname: string): keyof typeof SUB_NAV | null {
+  if (["/feed", "/companies", "/recruiters", "/sources", "/intake"].some((p) => pathname.startsWith(p))) return "opportunities";
+  if (["/pipeline", "/packages", "/approvals", "/follow-ups", "/conversion"].some((p) => pathname.startsWith(p))) return "pipeline";
+  if (["/prep", "/strategist", "/copilot"].some((p) => pathname.startsWith(p))) return "interviews";
+  if (["/profile", "/resume", "/resumes", "/automation", "/observability"].some((p) => pathname.startsWith(p))) return "profile";
+  return null;
+}
+
+function primaryActive(primaryTo: string, pathname: string) {
+  if (primaryTo === "/dashboard") return pathname === "/dashboard";
+  if (primaryTo === "/feed") return sectionFor(pathname) === "opportunities";
+  if (primaryTo === "/pipeline") return sectionFor(pathname) === "pipeline";
+  if (primaryTo === "/prep") return sectionFor(pathname) === "interviews";
+  if (primaryTo === "/profile") return sectionFor(pathname) === "profile";
+  return false;
+}
+
+const SECONDARY = [
+  { to: "/feedback", label: "Send feedback" },
   { to: "/admin", label: "Admin" },
 ] as const;
 
@@ -36,9 +84,12 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { user, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const section = sectionFor(pathname);
+  const sub = section ? SUB_NAV[section] : null;
+
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+      <nav className="sticky top-0 z-50 bg-background/85 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-14">
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-2">
@@ -50,8 +101,8 @@ export function AppShell({ children }: { children: ReactNode }) {
               </span>
             </Link>
             <div className="hidden md:flex items-center gap-1">
-              {NAV.map((n) => {
-                const active = pathname === n.to || pathname.startsWith(n.to + "/");
+              {PRIMARY.map((n) => {
+                const active = primaryActive(n.to, pathname);
                 return (
                   <Link
                     key={n.to}
@@ -95,8 +146,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                         <div className="text-[11px] text-muted-foreground mt-0.5">Signed in</div>
                       </div>
                     )}
-                    <div className="py-1 max-h-80 overflow-y-auto">
-                      {MORE.map((m) => (
+                    <div className="py-1">
+                      {SECONDARY.map((m) => (
                         <Link
                           key={m.to}
                           to={m.to}
@@ -131,6 +182,30 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
           </div>
         </div>
+
+        {/* Contextual sub-tabs for merged workspaces */}
+        {sub && (
+          <div className="border-t border-border/60 bg-background/60">
+            <div className="max-w-7xl mx-auto px-6 h-11 flex items-center gap-1 overflow-x-auto">
+              {sub.tabs.map((t) => {
+                const active = pathname === t.to || pathname.startsWith(t.to + "/");
+                return (
+                  <Link
+                    key={t.to}
+                    to={t.to}
+                    className={`shrink-0 px-3 py-1.5 rounded-md text-[12.5px] font-medium transition-colors ${
+                      active
+                        ? "text-foreground bg-secondary"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
+                    }`}
+                  >
+                    {t.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </nav>
 
       <main>{children}</main>
