@@ -175,3 +175,42 @@ The fastest path from cold install to "I get it":
 3. Promote agent memory recall into Strategist prompt context.
 4. Ship Workday + Ashby connectors behind their API gates.
 5. Build a billing/limits surface once the first 25 beta users are active.
+
+---
+
+## Validation & Optimization Phase
+
+Feature expansion is frozen. Current focus is reliability, trust, and conversion quality.
+
+### Telemetry surfaces
+- `/observability` — workflow latency (p50/p90/p99), agent failure rate, AI cost, tokens, queue depth, source reliability, approval conversion, interviews-per-week.
+- `/admin` — debug snapshot + dead-letter retry.
+- `/launch` — pre-flight checklist (env, profile, resume, sources, RLS).
+
+### Beta feedback loop
+- `/feedback` — in-app reports (bug, UX, AI quality, feature) tied to current route, optional 1–5 rating, severity, and free-form details. RLS-scoped per user; `feedback` table.
+- AI quality ratings flow into the same inbox so we can correlate low-rated outputs with the agent run that produced them (via `route` + `meta`).
+
+### Performance discipline
+- Server functions default to `useQuery` with sane `refetchInterval`s (8–15s) instead of polling loops.
+- AI-heavy server functions read `process.env.LOVABLE_API_KEY` inside `.handler()` only.
+- Queue work routes through `task_queue` so retries are bounded by `max_attempts` and surfaced in `/observability`.
+
+### Post-beta roadmap (deferred)
+1. Autonomous apply (gated behind explicit per-source consent + per-day caps).
+2. Browser extension for one-click intake from any careers page.
+3. Recruiter marketplace + warm-intro graph.
+4. Voice interview prep (live mock interviewer).
+5. Enterprise recruiter tooling (multi-seat, shared pipelines).
+6. Team collaboration on shared candidate pipelines.
+7. AI negotiation assistant (live offer modeling, counter scripts).
+
+### Production deployment checklist
+- Secrets present: `LOVABLE_API_KEY`, `SUPABASE_*` (auto-provisioned by Cloud).
+- RLS enabled on every `public.*` table (verify via `/launch`).
+- Cron tick attached to `/api/public/hooks/tick` once autonomous sync is desired.
+- Monitor `/observability` failure-rate < 5% and p99 latency < 15s before opening to beta cohort.
+- Backups: managed by Lovable Cloud; no manual action required for beta.
+
+### Success metric
+**Interviews generated per user per week.** All other metrics (applications sent, outreach volume, packages built) are inputs, not goals.
