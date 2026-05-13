@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as ResumesRouteImport } from './routes/resumes'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as RecruitersRouteImport } from './routes/recruiters'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as OutreachRouteImport } from './routes/outreach'
@@ -40,6 +41,11 @@ const ResumesRoute = ResumesRouteImport.update({
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecruitersRoute = RecruitersRouteImport.update({
+  id: '/recruiters',
+  path: '/recruiters',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -127,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
+  '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
+  '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/profile': typeof ProfileRoute
+  '/recruiters': typeof RecruitersRoute
   '/resume': typeof ResumeRoute
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/outreach'
     | '/pipeline'
     | '/profile'
+    | '/recruiters'
     | '/resume'
     | '/resumes'
     | '/sources'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/outreach'
     | '/pipeline'
     | '/profile'
+    | '/recruiters'
     | '/resume'
     | '/resumes'
     | '/sources'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/outreach'
     | '/pipeline'
     | '/profile'
+    | '/recruiters'
     | '/resume'
     | '/resumes'
     | '/sources'
@@ -245,6 +257,7 @@ export interface RootRouteChildren {
   OutreachRoute: typeof OutreachRoute
   PipelineRoute: typeof PipelineRoute
   ProfileRoute: typeof ProfileRoute
+  RecruitersRoute: typeof RecruitersRoute
   ResumeRoute: typeof ResumeRoute
   ResumesRoute: typeof ResumesRoute
   SourcesRoute: typeof SourcesRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/resume'
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recruiters': {
+      id: '/recruiters'
+      path: '/recruiters'
+      fullPath: '/recruiters'
+      preLoaderRoute: typeof RecruitersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -389,6 +409,7 @@ const rootRouteChildren: RootRouteChildren = {
   OutreachRoute: OutreachRoute,
   PipelineRoute: PipelineRoute,
   ProfileRoute: ProfileRoute,
+  RecruitersRoute: RecruitersRoute,
   ResumeRoute: ResumeRoute,
   ResumesRoute: ResumesRoute,
   SourcesRoute: SourcesRoute,
