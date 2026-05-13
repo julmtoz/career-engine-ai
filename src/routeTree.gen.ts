@@ -21,6 +21,7 @@ import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as CompaniesRouteImport } from './routes/companies'
 import { Route as AutomationRouteImport } from './routes/automation'
 import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as IndexRouteImport } from './routes/index'
@@ -86,6 +87,11 @@ const CopilotRoute = CopilotRouteImport.update({
   path: '/copilot',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompaniesRoute = CompaniesRouteImport.update({
+  id: '/companies',
+  path: '/companies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AutomationRoute = AutomationRouteImport.update({
   id: '/automation',
   path: '/automation',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
+  '/companies': typeof CompaniesRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
+  '/companies': typeof CompaniesRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
+  '/companies': typeof CompaniesRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/feed': typeof FeedRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/'
     | '/approvals'
     | '/automation'
+    | '/companies'
     | '/copilot'
     | '/dashboard'
     | '/feed'
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/'
     | '/approvals'
     | '/automation'
+    | '/companies'
     | '/copilot'
     | '/dashboard'
     | '/feed'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/'
     | '/approvals'
     | '/automation'
+    | '/companies'
     | '/copilot'
     | '/dashboard'
     | '/feed'
@@ -223,6 +235,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApprovalsRoute: typeof ApprovalsRoute
   AutomationRoute: typeof AutomationRoute
+  CompaniesRoute: typeof CompaniesRoute
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
   FeedRoute: typeof FeedRoute
@@ -324,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CopilotRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/companies': {
+      id: '/companies'
+      path: '/companies'
+      fullPath: '/companies'
+      preLoaderRoute: typeof CompaniesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/automation': {
       id: '/automation'
       path: '/automation'
@@ -359,6 +379,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApprovalsRoute: ApprovalsRoute,
   AutomationRoute: AutomationRoute,
+  CompaniesRoute: CompaniesRoute,
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
   FeedRoute: FeedRoute,
