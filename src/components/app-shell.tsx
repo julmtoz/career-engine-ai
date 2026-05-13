@@ -20,6 +20,8 @@ const NAV = [
   { to: "/resumes", label: "Vault" },
   { to: "/analytics", label: "Analytics" },
   { to: "/profile", label: "Profile" },
+  { to: "/launch", label: "Launch" },
+  { to: "/admin", label: "Debug" },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {

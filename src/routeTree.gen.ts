@@ -20,6 +20,7 @@ import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LaunchRouteImport } from './routes/launch'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as IntakeRouteImport } from './routes/intake'
 import { Route as FollowUpsRouteImport } from './routes/follow-ups'
@@ -31,6 +32,7 @@ import { Route as CompaniesRouteImport } from './routes/companies'
 import { Route as AutomationRouteImport } from './routes/automation'
 import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hooks/tick'
 
@@ -89,6 +91,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LaunchRoute = LaunchRouteImport.update({
+  id: '/launch',
+  path: '/launch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsRoute = JobsRouteImport.update({
   id: '/jobs',
   path: '/jobs',
@@ -144,6 +151,11 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -157,6 +169,7 @@ const ApiPublicHooksTickRoute = ApiPublicHooksTickRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
@@ -168,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
+  '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
@@ -183,6 +197,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
@@ -194,6 +209,7 @@ export interface FileRoutesByTo {
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
+  '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
@@ -210,6 +226,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/analytics': typeof AnalyticsRoute
   '/approvals': typeof ApprovalsRoute
   '/automation': typeof AutomationRoute
@@ -221,6 +238,7 @@ export interface FileRoutesById {
   '/follow-ups': typeof FollowUpsRoute
   '/intake': typeof IntakeRoute
   '/jobs': typeof JobsRoute
+  '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/packages': typeof PackagesRoute
@@ -238,6 +256,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/analytics'
     | '/approvals'
     | '/automation'
@@ -249,6 +268,7 @@ export interface FileRouteTypes {
     | '/follow-ups'
     | '/intake'
     | '/jobs'
+    | '/launch'
     | '/login'
     | '/outreach'
     | '/packages'
@@ -264,6 +284,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/analytics'
     | '/approvals'
     | '/automation'
@@ -275,6 +296,7 @@ export interface FileRouteTypes {
     | '/follow-ups'
     | '/intake'
     | '/jobs'
+    | '/launch'
     | '/login'
     | '/outreach'
     | '/packages'
@@ -290,6 +312,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/analytics'
     | '/approvals'
     | '/automation'
@@ -301,6 +324,7 @@ export interface FileRouteTypes {
     | '/follow-ups'
     | '/intake'
     | '/jobs'
+    | '/launch'
     | '/login'
     | '/outreach'
     | '/packages'
@@ -317,6 +341,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AnalyticsRoute: typeof AnalyticsRoute
   ApprovalsRoute: typeof ApprovalsRoute
   AutomationRoute: typeof AutomationRoute
@@ -328,6 +353,7 @@ export interface RootRouteChildren {
   FollowUpsRoute: typeof FollowUpsRoute
   IntakeRoute: typeof IntakeRoute
   JobsRoute: typeof JobsRoute
+  LaunchRoute: typeof LaunchRoute
   LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
   PackagesRoute: typeof PackagesRoute
@@ -421,6 +447,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/launch': {
+      id: '/launch'
+      path: '/launch'
+      fullPath: '/launch'
+      preLoaderRoute: typeof LaunchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/jobs': {
       id: '/jobs'
       path: '/jobs'
@@ -498,6 +531,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -517,6 +557,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AnalyticsRoute: AnalyticsRoute,
   ApprovalsRoute: ApprovalsRoute,
   AutomationRoute: AutomationRoute,
@@ -528,6 +569,7 @@ const rootRouteChildren: RootRouteChildren = {
   FollowUpsRoute: FollowUpsRoute,
   IntakeRoute: IntakeRoute,
   JobsRoute: JobsRoute,
+  LaunchRoute: LaunchRoute,
   LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
   PackagesRoute: PackagesRoute,
