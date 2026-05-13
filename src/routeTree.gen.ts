@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as OutreachRouteImport } from './routes/outreach'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as JobsRouteImport } from './routes/jobs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
@@ -31,6 +32,11 @@ const PipelineRoute = PipelineRouteImport.update({
 const OutreachRoute = OutreachRouteImport.update({
   id: '/outreach',
   path: '/outreach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsRoute = JobsRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
+  '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/resume': typeof ResumeRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
+  '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/resume': typeof ResumeRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
   '/jobs': typeof JobsRoute
+  '/login': typeof LoginRoute
   '/outreach': typeof OutreachRoute
   '/pipeline': typeof PipelineRoute
   '/resume': typeof ResumeRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/copilot'
     | '/dashboard'
     | '/jobs'
+    | '/login'
     | '/outreach'
     | '/pipeline'
     | '/resume'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/copilot'
     | '/dashboard'
     | '/jobs'
+    | '/login'
     | '/outreach'
     | '/pipeline'
     | '/resume'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/copilot'
     | '/dashboard'
     | '/jobs'
+    | '/login'
     | '/outreach'
     | '/pipeline'
     | '/resume'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
   JobsRoute: typeof JobsRoute
+  LoginRoute: typeof LoginRoute
   OutreachRoute: typeof OutreachRoute
   PipelineRoute: typeof PipelineRoute
   ResumeRoute: typeof ResumeRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/outreach'
       fullPath: '/outreach'
       preLoaderRoute: typeof OutreachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,
   JobsRoute: JobsRoute,
+  LoginRoute: LoginRoute,
   OutreachRoute: OutreachRoute,
   PipelineRoute: PipelineRoute,
   ResumeRoute: ResumeRoute,
@@ -208,3 +229,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
