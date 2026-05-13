@@ -6,6 +6,7 @@ import { AgentStream } from "@/components/agent-stream";
 import { JobCard } from "@/components/job-card";
 import { MatchRing } from "@/components/match-ring";
 import { getActivation } from "@/lib/activation.functions";
+import { MissionControl } from "@/components/mission-control";
 import {
   agentFleet,
   dashboardMetrics,
@@ -63,28 +64,16 @@ function MetricCard({
   highlight?: boolean;
 }) {
   return (
-    <div
-      className={`p-5 rounded-2xl border ${
-        highlight
-          ? "border-accent/20 bg-accent/5"
-          : "border-border bg-card"
-      }`}
-    >
-      <p className="text-[10px] font-mono uppercase tracking-widest text-muted mb-2">{label}</p>
+    <div className={`relative p-4 surface ${highlight ? "bg-elevated" : ""}`}>
+      {highlight && <span className="absolute top-2 right-2 size-1.5 rounded-full bg-signal animate-pulse-soft" />}
+      <p className="text-[9px] font-mono uppercase tracking-[0.25em] text-muted mb-2">{label}</p>
       <div className="flex items-end gap-2">
-        <span className="font-display text-3xl font-extrabold tracking-tight">{value}</span>
-        <span
-          className={`text-xs font-mono mb-1 ${
-            highlight ? "text-accent" : "text-success"
-          }`}
-        >
-          {delta}
-        </span>
+        <span className={`font-display text-2xl font-extrabold tracking-tight ${highlight ? "text-accent text-glow" : ""}`}>{value}</span>
+        <span className={`text-[10px] font-mono mb-1 ${highlight ? "text-accent" : "text-signal"}`}>{delta}</span>
       </div>
     </div>
   );
 }
-
 function Dashboard() {
   const m = dashboardMetrics;
   const counts = pipelineStages.map((s) => ({
@@ -97,28 +86,34 @@ function Dashboard() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         <ActivationBanner />
         {/* Header */}
-        <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
+        <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
           <div>
-            <p className="text-[10px] font-mono uppercase tracking-widest text-accent mb-2">
-              Command center
+            <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent mb-2">
+              ─ Command center · live
             </p>
-            <h1 className="font-display text-4xl md:text-5xl tracking-tight font-extrabold">
-              Good evening, <span className="font-serif italic font-bold">Alex.</span>
+            <h1 className="font-display text-3xl md:text-4xl tracking-[-0.02em] font-extrabold">
+              Good evening, <span className="font-serif italic font-bold text-accent">Alex.</span>
             </h1>
-            <p className="text-muted mt-2">
-              Your fleet ran 1,402 operations today. 4 interviews on the runway.
+            <p className="text-muted text-sm mt-1.5">
+              Fleet ran <span className="text-foreground font-mono">1,402</span> ops today ·
+              <span className="text-signal"> 4 interviews</span> on the runway.
             </p>
           </div>
           <Link
             to="/jobs"
-            className="px-4 py-2 bg-foreground text-background text-sm font-semibold rounded-md"
+            className="px-4 py-2 bg-accent text-accent-foreground text-xs font-bold uppercase tracking-widest rounded-md glow-accent"
           >
-            Re-rank feed
+            Re-rank feed →
           </Link>
         </div>
 
+        {/* Mission control viz */}
+        <div className="mb-6">
+          <MissionControl compact />
+        </div>
+
         {/* Metrics */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-xl overflow-hidden mb-8">
           <MetricCard label="Discovery velocity" value={m.jobsScanned.value.toLocaleString()} delta={m.jobsScanned.delta} />
           <MetricCard label="Match accuracy" value={m.matchAccuracy.value} delta={m.matchAccuracy.delta} />
           <MetricCard label="Outreach flow" value={m.outreachActive.value} delta={m.outreachActive.delta} />
