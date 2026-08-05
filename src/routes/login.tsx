@@ -3,7 +3,13 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 
+function safeNext(next: unknown): string | null {
+  if (typeof next !== "string" || !next.startsWith("/") || next.startsWith("//")) return null;
+  return next;
+}
+
 export const Route = createFileRoute("/login")({
+  validateSearch: (s: Record<string, unknown>) => ({ next: safeNext(s.next) ?? undefined }),
   component: LoginPage,
   head: () => ({ meta: [{ title: "Sign in — Aether" }] }),
 });
@@ -11,6 +17,7 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
+  const { next } = Route.useSearch();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -18,8 +25,11 @@ function LoginPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) nav({ to: "/dashboard" });
-  }, [user, loading, nav]);
+    if (!loading && user) {
+      if (next) window.location.href = next;
+      else nav({ to: "/dashboard" });
+    }
+  }, [user, loading, nav, next]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,7 +40,9 @@ function LoginPage() {
         const { error } = await supabase.auth.signUp({
           email,
           password: pw,
-          options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+          options: {
+            emailRedirectTo: `${window.location.origin}${next ?? "/dashboard"}`,
+          },
         });
         if (error) throw error;
       } else {
