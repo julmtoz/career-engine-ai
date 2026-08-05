@@ -20,6 +20,7 @@ import { Route as PackagesRouteImport } from './routes/packages'
 import { Route as OutreachRouteImport } from './routes/outreach'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ObservabilityRouteImport } from './routes/observability'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as LaunchRouteImport } from './routes/launch'
 import { Route as IntakeRouteImport } from './routes/intake'
@@ -36,6 +37,9 @@ import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hooks/tick'
 
@@ -92,6 +96,11 @@ const OnboardingRoute = OnboardingRouteImport.update({
 const ObservabilityRoute = ObservabilityRouteImport.update({
   id: '/observability',
   path: '/observability',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -174,6 +183,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   id: '/.lovable/oauth/consent',
   path: '/.lovable/oauth/consent',
@@ -202,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/intake': typeof IntakeRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
+  '/mcp': typeof McpRoute
   '/observability': typeof ObservabilityRoute
   '/onboarding': typeof OnboardingRoute
   '/outreach': typeof OutreachRoute
@@ -213,7 +241,10 @@ export interface FileRoutesByFullPath {
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesByTo {
@@ -233,6 +264,7 @@ export interface FileRoutesByTo {
   '/intake': typeof IntakeRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
+  '/mcp': typeof McpRoute
   '/observability': typeof ObservabilityRoute
   '/onboarding': typeof OnboardingRoute
   '/outreach': typeof OutreachRoute
@@ -244,7 +276,10 @@ export interface FileRoutesByTo {
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesById {
@@ -265,6 +300,7 @@ export interface FileRoutesById {
   '/intake': typeof IntakeRoute
   '/launch': typeof LaunchRoute
   '/login': typeof LoginRoute
+  '/mcp': typeof McpRoute
   '/observability': typeof ObservabilityRoute
   '/onboarding': typeof OnboardingRoute
   '/outreach': typeof OutreachRoute
@@ -276,7 +312,10 @@ export interface FileRoutesById {
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRouteTypes {
@@ -298,6 +337,7 @@ export interface FileRouteTypes {
     | '/intake'
     | '/launch'
     | '/login'
+    | '/mcp'
     | '/observability'
     | '/onboarding'
     | '/outreach'
@@ -309,7 +349,10 @@ export interface FileRouteTypes {
     | '/resumes'
     | '/sources'
     | '/strategist'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/hooks/tick'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -329,6 +372,7 @@ export interface FileRouteTypes {
     | '/intake'
     | '/launch'
     | '/login'
+    | '/mcp'
     | '/observability'
     | '/onboarding'
     | '/outreach'
@@ -340,7 +384,10 @@ export interface FileRouteTypes {
     | '/resumes'
     | '/sources'
     | '/strategist'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/hooks/tick'
   id:
     | '__root__'
@@ -360,6 +407,7 @@ export interface FileRouteTypes {
     | '/intake'
     | '/launch'
     | '/login'
+    | '/mcp'
     | '/observability'
     | '/onboarding'
     | '/outreach'
@@ -371,7 +419,10 @@ export interface FileRouteTypes {
     | '/resumes'
     | '/sources'
     | '/strategist'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/.lovable/oauth/consent'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/hooks/tick'
   fileRoutesById: FileRoutesById
 }
@@ -392,6 +443,7 @@ export interface RootRouteChildren {
   IntakeRoute: typeof IntakeRoute
   LaunchRoute: typeof LaunchRoute
   LoginRoute: typeof LoginRoute
+  McpRoute: typeof McpRoute
   ObservabilityRoute: typeof ObservabilityRoute
   OnboardingRoute: typeof OnboardingRoute
   OutreachRoute: typeof OutreachRoute
@@ -403,7 +455,10 @@ export interface RootRouteChildren {
   ResumesRoute: typeof ResumesRoute
   SourcesRoute: typeof SourcesRoute
   StrategistRoute: typeof StrategistRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicHooksTickRoute: typeof ApiPublicHooksTickRoute
 }
 
@@ -484,6 +539,13 @@ declare module '@tanstack/react-router' {
       path: '/observability'
       fullPath: '/observability'
       preLoaderRoute: typeof ObservabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -598,6 +660,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.lovable/oauth/consent': {
       id: '/.lovable/oauth/consent'
       path: '/.lovable/oauth/consent'
@@ -632,6 +715,7 @@ const rootRouteChildren: RootRouteChildren = {
   IntakeRoute: IntakeRoute,
   LaunchRoute: LaunchRoute,
   LoginRoute: LoginRoute,
+  McpRoute: McpRoute,
   ObservabilityRoute: ObservabilityRoute,
   OnboardingRoute: OnboardingRoute,
   OutreachRoute: OutreachRoute,
@@ -643,7 +727,11 @@ const rootRouteChildren: RootRouteChildren = {
   ResumesRoute: ResumesRoute,
   SourcesRoute: SourcesRoute,
   StrategistRoute: StrategistRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicHooksTickRoute: ApiPublicHooksTickRoute,
 }
 export const routeTree = rootRouteImport
