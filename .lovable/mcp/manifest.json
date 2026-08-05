@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://qyymjsiuyjegvkpndaut.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "career-engine-ai",
+      "version": "0.1.0",
+      "title": "Career Engine AI"
+    },
+    "tools": [
+      {
+        "name": "get_career_profile",
+        "title": "Get career profile",
+        "description": "Read the signed-in user's career profile: target titles, industries, locations, work mode, salary target, skills, seniority and goals.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_opportunities",
+        "title": "List opportunities",
+        "description": "List the signed-in user's job opportunities, newest first, with match score, ATS score, interview probability and AI reasoning.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "Max rows to return (default 20, max 100).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "min_match_score": {
+              "description": "Only return opportunities at or above this match score (0-100).",
+              "type": "number"
+            },
+            "company": {
+              "description": "Filter by company name (case-insensitive substring).",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_opportunity",
+        "title": "Get opportunity",
+        "description": "Fetch one job opportunity in full (description, requirements, responsibilities, scores, reasoning) plus any linked application stage.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Opportunity id (uuid)."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "add_opportunity",
+        "title": "Add opportunity",
+        "description": "Add a job opportunity to the signed-in user's workspace from a pasted job posting. Scoring happens inside the app afterwards.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Job title."
+            },
+            "company": {
+              "type": "string",
+              "description": "Company name."
+            },
+            "description": {
+              "description": "Full job description text.",
+              "type": "string"
+            },
+            "location": {
+              "type": "string"
+            },
+            "remote": {
+              "description": "e.g. remote, hybrid, onsite.",
+              "type": "string"
+            },
+            "url": {
+              "description": "Link to the posting.",
+              "type": "string"
+            },
+            "salary_min": {
+              "type": "number"
+            },
+            "salary_max": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "title",
+            "company"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_pipeline",
+        "title": "List pipeline",
+        "description": "List the signed-in user's applications with their stage, readiness score and the linked opportunity — the current career pipeline.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "stage": {
+              "description": "Optional stage filter: discovered, tailoring, ready, applied, phone_screen, outreach, interview, interview_2, offer, rejected, withdrawn.",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Max rows (default 25, max 100).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_application_stage",
+        "title": "Update application stage",
+        "description": "Move one of the signed-in user's applications to a new pipeline stage, optionally appending a note.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "application_id": {
+              "type": "string",
+              "description": "Application id (uuid)."
+            },
+            "stage": {
+              "type": "string",
+              "enum": [
+                "discovered",
+                "tailoring",
+                "ready",
+                "applied",
+                "phone_screen",
+                "outreach",
+                "interview",
+                "interview_2",
+                "offer",
+                "rejected",
+                "withdrawn"
+              ],
+              "description": "New pipeline stage."
+            },
+            "notes": {
+              "description": "Optional note to store on the application.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "application_id",
+            "stage"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_recruiters",
+        "title": "List recruiters",
+        "description": "List recruiters tracked in the signed-in user's CRM with company, contact status and engagement/warmth signals.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "company": {
+              "description": "Filter by company name (case-insensitive substring).",
+              "type": "string"
+            },
+            "limit": {
+              "description": "Max rows (default 25, max 100).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          }
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
