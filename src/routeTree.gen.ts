@@ -36,6 +36,7 @@ import { Route as ApprovalsRouteImport } from './routes/approvals'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicHooksTickRouteImport } from './routes/api/public/hooks/tick'
 
 const StrategistRoute = StrategistRouteImport.update({
@@ -173,6 +174,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicHooksTickRoute = ApiPublicHooksTickRouteImport.update({
   id: '/api/public/hooks/tick',
   path: '/api/public/hooks/tick',
@@ -207,6 +213,7 @@ export interface FileRoutesByFullPath {
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesByTo {
@@ -237,6 +244,7 @@ export interface FileRoutesByTo {
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRoutesById {
@@ -268,6 +276,7 @@ export interface FileRoutesById {
   '/resumes': typeof ResumesRoute
   '/sources': typeof SourcesRoute
   '/strategist': typeof StrategistRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/api/public/hooks/tick': typeof ApiPublicHooksTickRoute
 }
 export interface FileRouteTypes {
@@ -300,6 +309,7 @@ export interface FileRouteTypes {
     | '/resumes'
     | '/sources'
     | '/strategist'
+    | '/.lovable/oauth/consent'
     | '/api/public/hooks/tick'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
     | '/resumes'
     | '/sources'
     | '/strategist'
+    | '/.lovable/oauth/consent'
     | '/api/public/hooks/tick'
   id:
     | '__root__'
@@ -360,6 +371,7 @@ export interface FileRouteTypes {
     | '/resumes'
     | '/sources'
     | '/strategist'
+    | '/.lovable/oauth/consent'
     | '/api/public/hooks/tick'
   fileRoutesById: FileRoutesById
 }
@@ -391,6 +403,7 @@ export interface RootRouteChildren {
   ResumesRoute: typeof ResumesRoute
   SourcesRoute: typeof SourcesRoute
   StrategistRoute: typeof StrategistRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   ApiPublicHooksTickRoute: typeof ApiPublicHooksTickRoute
 }
 
@@ -585,6 +598,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/tick': {
       id: '/api/public/hooks/tick'
       path: '/api/public/hooks/tick'
@@ -623,6 +643,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResumesRoute: ResumesRoute,
   SourcesRoute: SourcesRoute,
   StrategistRoute: StrategistRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   ApiPublicHooksTickRoute: ApiPublicHooksTickRoute,
 }
 export const routeTree = rootRouteImport
