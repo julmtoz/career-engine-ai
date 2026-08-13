@@ -8,10 +8,14 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-// @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
+// nitro.preset targets Vercel's Node runtime — this app deploys there, not Cloudflare Workers
+// (the shared config's zero-config default is `cloudflare-module`, so this must be explicit).
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
+  },
+  nitro: {
+    preset: "vercel",
   },
   vite: {
     plugins: [mcpPlugin()],
