@@ -1,5 +1,7 @@
 # Aether OS — Career Engine AI
 
+[![CI](https://github.com/julmtoz/career-engine-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/julmtoz/career-engine-ai/actions/workflows/ci.yml)
+
 An event-driven career workflow workspace that explores durable AI-agent
 orchestration, explainable decisions, job discovery, application preparation,
 and approval-gated outreach.
